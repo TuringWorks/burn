@@ -67,6 +67,22 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
         TchTensor::new(tch::Tensor::ones(shape.dims, (dtype.into_kind(), device)))
     }
 
+    fn float_full(
+        shape: Shape,
+        fill_value: E,
+        device: &LibTorchDevice,
+        dtype: FloatDType,
+    ) -> TchTensor {
+        let shape = TchShape::from(shape);
+        let device: tch::Device = (*device).into();
+
+        TchTensor::new(tch::Tensor::full(
+            shape.dims,
+            fill_value.elem::<f64>(),
+            (dtype.into_kind(), device),
+        ))
+    }
+
     async fn float_into_data(tensor: TchTensor) -> Result<TensorData, ExecutionError> {
         let shape = tensor.shape();
         let kind = tensor.tensor.kind();
