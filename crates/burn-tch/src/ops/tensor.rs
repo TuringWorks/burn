@@ -69,26 +69,29 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
 
     async fn float_into_data(tensor: TchTensor) -> Result<TensorData, ExecutionError> {
         let shape = tensor.shape();
+        let kind = tensor.tensor.kind();
         let tensor = Self::float_reshape(tensor.clone(), Shape::new([shape.num_elements()]));
-        Ok(match tensor.tensor.kind() {
+        match kind {
             tch::Kind::Half => {
                 let values = Vec::<f16>::try_from(&tensor).unwrap();
-                TensorData::new(values, shape)
+                Ok(TensorData::new(values, shape))
             }
             tch::Kind::Float => {
                 let values = Vec::<f32>::try_from(&tensor).unwrap();
-                TensorData::new(values, shape)
+                Ok(TensorData::new(values, shape))
             }
             tch::Kind::Double => {
                 let values = Vec::<f64>::try_from(&tensor).unwrap();
-                TensorData::new(values, shape)
+                Ok(TensorData::new(values, shape))
             }
             tch::Kind::BFloat16 => {
                 let values = Vec::<bf16>::try_from(&tensor).unwrap();
-                TensorData::new(values, shape)
+                Ok(TensorData::new(values, shape))
             }
-            _ => panic!("Not a valid float kind"),
-        })
+            other => Err(ExecutionError::WithContext {
+                reason: format!("Unsupported float tensor kind: {:?}", other),
+            }),
+        }
     }
 
     fn float_device(tensor: &TchTensor) -> LibTorchDevice {
@@ -336,6 +339,30 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
         TchOps::prod_dim(tensor, dim)
     }
 
+    fn float_all(tensor: FloatTensor<Self>) -> BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's all()
+        let bool_tensor = tensor.tensor.ne(0.0);
+        TchTensor::new(bool_tensor.all())
+    }
+
+    fn float_all_dim(tensor: FloatTensor<Self>, dim: usize) -> BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's all_dim()
+        let bool_tensor = tensor.tensor.ne(0.0);
+        TchTensor::new(bool_tensor.all_dim(dim as i64, false))
+    }
+
+    fn float_any(tensor: FloatTensor<Self>) -> BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's any()
+        let bool_tensor = tensor.tensor.ne(0.0);
+        TchTensor::new(bool_tensor.any())
+    }
+
+    fn float_any_dim(tensor: FloatTensor<Self>, dim: usize) -> BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's any_dim()
+        let bool_tensor = tensor.tensor.ne(0.0);
+        TchTensor::new(bool_tensor.any_dim(dim as i64, false))
+    }
+
     fn float_argmax(tensor: TchTensor, dim: usize) -> TchTensor {
         TchOps::argmax(tensor, dim)
     }
@@ -397,6 +424,18 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
 
     fn float_tanh(tensor: TchTensor) -> TchTensor {
         tensor.unary_ops(|mut tensor| tensor.tanh_(), |tensor| tensor.tanh())
+    }
+
+    fn float_sinh(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.sinh_(), |tensor| tensor.sinh())
+    }
+
+    fn float_cosh(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.cosh_(), |tensor| tensor.cosh())
+    }
+
+    fn float_tan(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.tan_(), |tensor| tensor.tan())
     }
 
     fn float_round(tensor: TchTensor) -> TchTensor {
