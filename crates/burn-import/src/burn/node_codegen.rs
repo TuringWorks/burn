@@ -111,6 +111,13 @@ impl_node_codegen_dispatch! {
     Softmax,
     LogSoftmax,
     PRelu,
+    Elu,
+    Selu,
+    Celu,
+    Mish,
+    Softplus,
+    Softsign,
+    ThresholdedRelu,
 
     // Shape ops
     Reshape,

@@ -113,6 +113,7 @@ pub(crate) mod sin;
 pub(crate) mod sinh;
 pub(crate) mod size;
 pub(crate) mod slice;
+pub(crate) mod softplus;
 pub(crate) mod softmax;
 pub(crate) mod space_to_depth;
 pub(crate) mod split;

@@ -593,6 +593,36 @@ impl ProcessorRegistry {
             Box::new(crate::node::prelu::PReluProcessor),
         );
 
+        // Element-wise unary activations (using ElementwiseUnaryProcessor)
+        registry.register(
+            NodeType::Elu,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::Selu,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::Celu,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::Mish,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::Softplus,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::Softsign,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+        registry.register(
+            NodeType::ThresholdedRelu,
+            Box::new(crate::node::elementwise::ElementwiseUnaryProcessor),
+        );
+
         // Control flow operations
         registry.register(NodeType::If, Box::new(crate::node::if_node::IfProcessor));
         registry.register(

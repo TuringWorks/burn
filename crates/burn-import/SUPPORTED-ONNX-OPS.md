@@ -35,7 +35,7 @@ functionality.
 | [Cast][22]                       | ✅             | ✅           |
 | [CastLike][23]                   | ❌             | ❌           |
 | [Ceil][24]                       | ✅             | ✅           |
-| [Celu][25]                       | ❌             | ❌           |
+| [Celu][25]                       | ✅             | ✅           |
 | [CenterCropPad][26]              | ❌             | ❌           |
 | [Clip][27]                       | ✅             | ✅           |
 | [Col2Im][28]                     | ❌             | ❌           |
@@ -63,7 +63,7 @@ functionality.
 | [Dropout][47]                    | ✅             | ✅           |
 | [DynamicQuantizeLinear][48]      | ❌             | ❌           |
 | [Einsum][49]                     | ❌             | ❌           |
-| [Elu][50]                        | ❌             | ❌           |
+| [Elu][50]                        | ✅             | ✅           |
 | [Equal][51]                      | ✅             | ✅           |
 | [Erf][52]                        | ✅             | ✅           |
 | [Exp][53]                        | ✅             | ✅           |
@@ -119,7 +119,7 @@ functionality.
 | [MeanVarianceNormalization][102] | ❌             | ❌           |
 | [MelWeightMatrix][103]           | ❌             | ❌           |
 | [Min][104]                       | ✅             | ✅           |
-| [Mish][105]                      | ❌             | ❌           |
+| [Mish][105]                      | ✅             | ✅           |
 | [Mod][106]                       | ✅             | ✅           |
 | [Mul][107]                       | ✅             | ✅           |
 | [Multinomial][108]               | ❌             | ❌           |
@@ -168,7 +168,7 @@ functionality.
 | [Scatter][149]                   | ❌             | ✅           |
 | [ScatterElements][150]           | ❌             | ❌           |
 | [ScatterND][151]                 | ❌             | ❌           |
-| [Selu][152]                      | ❌             | ❌           |
+| [Selu][152]                      | ✅             | ✅           |
 | [SequenceAt][153]                | ❌             | ❌           |
 | [SequenceConstruct][154]         | ❌             | ❌           |
 | [SequenceEmpty][155]             | ❌             | ❌           |
@@ -186,8 +186,8 @@ functionality.
 | [Slice][167]                     | ✅             | ✅           |
 | [Softmax][168]                   | ✅             | ✅           |
 | [SoftmaxCrossEntropyLoss][169]   | ❌             | ❌           |
-| [Softplus][170]                  | ❌             | ❌           |
-| [Softsign][171]                  | ❌             | ❌           |
+| [Softplus][170]                  | ✅             | ✅           |
+| [Softsign][171]                  | ✅             | ✅           |
 | [SpaceToDepth][172]              | ✅             | ✅           |
 | [Split][173]                     | ✅             | ✅           |
 | [SplitToSequence][174]           | ❌             | ❌           |
@@ -204,7 +204,7 @@ functionality.
 | [Tanh][182]                      | ✅             | ✅           |
 | [TensorScatter][204]             | ❌             | ❌           |
 | [TfIdfVectorizer][183]           | ❌             | ❌           |
-| [ThresholdedRelu][184]           | ❌             | ❌           |
+| [ThresholdedRelu][184]           | ✅             | ✅           |
 | [Tile][185]                      | ✅             | ✅           |
 | [TopK][186]                      | ✅             | ✅           |
 | [Transpose][187]                 | ✅             | ✅           |
