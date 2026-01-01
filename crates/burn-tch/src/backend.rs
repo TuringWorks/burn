@@ -1,6 +1,6 @@
 use crate::IntoKind;
 
-use super::TchTensor;
+use super::{TchQTensor, TchTensor};
 use super::element::TchElement;
 use burn_backend::backend::{Backend, DeviceId, DeviceOps, ExecutionError};
 use burn_backend::ops::IntTensorOps;
@@ -121,7 +121,7 @@ impl<E: TchElement> Backend for LibTorch<E> {
     type BoolTensorPrimitive = TchTensor;
     type BoolElem = bool;
 
-    type QuantizedTensorPrimitive = TchTensor;
+    type QuantizedTensorPrimitive = TchQTensor;
 
     fn seed(_device: &Self::Device, seed: u64) {
         tch::manual_seed(seed as i64);
@@ -162,6 +162,31 @@ impl<E: TchElement> Backend for LibTorch<E> {
     }
 
     fn supports_dtype(_device: &Self::Device, dtype: burn_backend::DType) -> bool {
-        dtype.try_into_kind().is_ok()
+        use burn_backend::quantization::{QuantLevel, QuantMode, QuantStore, QuantValue};
+
+        match dtype {
+            burn_backend::DType::QFloat(scheme) => {
+                // Support symmetric quantization with native storage for all bit widths
+                matches!(
+                    scheme,
+                    burn_backend::quantization::QuantScheme {
+                        level: QuantLevel::Tensor | QuantLevel::Block(_),
+                        mode: QuantMode::Symmetric,
+                        value: QuantValue::Q8F
+                            | QuantValue::Q8S
+                            | QuantValue::Q4F
+                            | QuantValue::Q4S
+                            | QuantValue::Q2F
+                            | QuantValue::Q2S
+                            | QuantValue::E4M3
+                            | QuantValue::E5M2
+                            | QuantValue::E2M1,
+                        store: QuantStore::Native | QuantStore::U32,
+                        ..
+                    }
+                )
+            }
+            other => other.try_into_kind().is_ok(),
+        }
     }
 }

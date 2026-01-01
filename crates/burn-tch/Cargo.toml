@@ -27,6 +27,7 @@ burn-backend = { path = "../burn-backend", version = "=0.20.0-pre.6", default-fe
 
 libc = { workspace = true }
 log = { workspace = true }
+num-traits = { workspace = true }
 tch = { workspace = true, features = ["download-libtorch"] }
 torch-sys = { workspace = true }                             # for build script lib dir detection
 

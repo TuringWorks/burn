@@ -1,5 +1,8 @@
 use crate::{LibTorchDevice, TchElement};
-use burn_backend::{DType, FloatDType, IntDType, Shape, TensorData, TensorMetadata};
+use burn_backend::{
+    DType, FloatDType, IntDType, Shape, TensorData, TensorMetadata,
+    quantization::{QParams, QuantScheme, QuantStore},
+};
 use libc::c_void;
 use std::sync::Arc;
 
@@ -92,8 +95,46 @@ impl TensorMetadata for TchTensor {
 }
 
 impl burn_backend::QTensorPrimitive for TchTensor {
-    fn scheme(&self) -> &burn_backend::quantization::QuantScheme {
-        unimplemented!("Quantization is not supported")
+    fn scheme(&self) -> &QuantScheme {
+        unimplemented!("Quantization is not supported for TchTensor directly, use TchQTensor")
+    }
+}
+
+/// A quantized tensor for the tch backend.
+///
+/// This struct wraps a `TchTensor` containing quantized i8 values along with
+/// the quantization scheme and parameters needed for dequantization.
+#[derive(Debug, Clone)]
+pub struct TchQTensor {
+    /// The quantized tensor storing i8 values.
+    pub qtensor: TchTensor,
+    /// The quantization scheme.
+    pub scheme: QuantScheme,
+    /// The quantization parameters (scales).
+    pub qparams: Vec<QParams<f32>>,
+}
+
+impl burn_backend::QTensorPrimitive for TchQTensor {
+    fn scheme(&self) -> &QuantScheme {
+        &self.scheme
+    }
+
+    fn default_scheme() -> QuantScheme {
+        QuantScheme::default().with_store(QuantStore::Native)
+    }
+}
+
+impl TensorMetadata for TchQTensor {
+    fn dtype(&self) -> DType {
+        DType::QFloat(self.scheme)
+    }
+
+    fn shape(&self) -> Shape {
+        self.qtensor.shape()
+    }
+
+    fn rank(&self) -> usize {
+        self.qtensor.rank()
     }
 }
 

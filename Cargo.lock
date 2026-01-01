@@ -1146,6 +1146,7 @@ dependencies = [
  "cc",
  "libc",
  "log",
+ "num-traits",
  "tch",
  "torch-sys",
 ]
