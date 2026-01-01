@@ -267,6 +267,23 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
         TchOps::equal_elem(lhs, rhs.elem::<f64>())
     }
 
+    fn float_not_equal(lhs: TchTensor, rhs: TchTensor) -> TchTensor {
+        TchTensor::binary_ops_tensor(
+            lhs,
+            rhs,
+            |lhs, rhs| lhs.ne_tensor_(rhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| rhs.ne_tensor_(lhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| lhs.ne_tensor(rhs),
+        )
+    }
+
+    fn float_not_equal_elem(lhs: TchTensor, rhs: E) -> TchTensor {
+        lhs.unary_ops(
+            |mut tensor| tensor.ne_(rhs.elem::<f64>()).to_kind(tch::Kind::Bool),
+            |tensor| tensor.ne(rhs.elem::<f64>()),
+        )
+    }
+
     fn float_greater(lhs: TchTensor, rhs: TchTensor) -> TchTensor {
         TchOps::greater(lhs, rhs)
     }
@@ -385,6 +402,14 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
 
     fn float_min_dim_with_indices(tensor: TchTensor, dim: usize) -> (TchTensor, TchTensor) {
         TchOps::min_dim_with_indices(tensor, dim)
+    }
+
+    fn float_max(tensor: TchTensor) -> TchTensor {
+        TchTensor::new(tensor.tensor.max().view([1]))
+    }
+
+    fn float_min(tensor: TchTensor) -> TchTensor {
+        TchTensor::new(tensor.tensor.min().view([1]))
     }
 
     fn float_exp(tensor: TchTensor) -> TchTensor {

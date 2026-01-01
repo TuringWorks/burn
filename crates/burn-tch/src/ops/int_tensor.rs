@@ -360,6 +360,31 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
         TchOps::min_dim_with_indices(tensor, dim)
     }
 
+    fn int_max(tensor: TchTensor) -> TchTensor {
+        TchTensor::new(tensor.tensor.max().view([1]))
+    }
+
+    fn int_min(tensor: TchTensor) -> TchTensor {
+        TchTensor::new(tensor.tensor.min().view([1]))
+    }
+
+    fn int_not_equal(lhs: TchTensor, rhs: TchTensor) -> TchTensor {
+        TchTensor::binary_ops_tensor(
+            lhs,
+            rhs,
+            |lhs, rhs| lhs.ne_tensor_(rhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| rhs.ne_tensor_(lhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| lhs.ne_tensor(rhs),
+        )
+    }
+
+    fn int_not_equal_elem(lhs: TchTensor, rhs: i64) -> TchTensor {
+        lhs.unary_ops(
+            |mut tensor| tensor.ne_(rhs).to_kind(tch::Kind::Bool),
+            |tensor| tensor.ne(rhs),
+        )
+    }
+
     fn int_clamp_min(tensor: TchTensor, min: i64) -> TchTensor {
         TchOps::clamp_min(tensor, min)
     }
