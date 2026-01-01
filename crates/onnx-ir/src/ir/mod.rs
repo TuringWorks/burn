@@ -12,9 +12,9 @@ mod tensor_data_ext;
 
 pub(crate) use attribute::{AttributeValue, Attributes, DeferredGraph, OuterScopeTypes};
 pub(crate) use graph::OnnxGraphBuilder;
-pub use node::RuntimeInputRef;
 pub use node::NodeType;
 pub(crate) use node::RawNode;
+pub use node::RuntimeInputRef;
 pub use tensor_data_ext::TensorDataExt;
 
 // Re-exports

@@ -94,7 +94,7 @@ mod tests {
     use burn::tensor::DType;
     use insta::assert_snapshot;
     use onnx_ir::elementwise::ElementwiseUnaryNode;
-    use onnx_ir::ir::{Argument, ArgType, NodeType, TensorType};
+    use onnx_ir::ir::{ArgType, Argument, NodeType, TensorType};
 
     fn create_unary_node(name: &str, node_type: NodeType) -> ElementwiseUnaryNode {
         let input_ty = ArgType::Tensor(TensorType::new(DType::F32, 2, None));
