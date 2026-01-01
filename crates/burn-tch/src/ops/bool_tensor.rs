@@ -87,8 +87,8 @@ impl<E: TchElement> BoolTensorOps<Self> for LibTorch<E> {
 
     fn bool_not(tensor: TchTensor) -> TchTensor {
         tensor.unary_ops(
-            |mut tensor| tensor.eq_(0).to_kind(tch::Kind::Bool),
-            |tensor| tensor.eq(0),
+            |mut tensor| tensor.logical_not_(),
+            |tensor| tensor.logical_not(),
         )
     }
 

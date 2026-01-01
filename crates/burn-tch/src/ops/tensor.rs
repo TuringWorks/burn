@@ -191,7 +191,7 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
     }
 
     fn float_neg(tensor: TchTensor) -> TchTensor {
-        Self::float_mul_scalar(tensor, (-1f32).elem::<E>())
+        tensor.unary_ops(|mut tensor| tensor.neg_(), |tensor| tensor.neg())
     }
 
     fn float_recip(tensor: TchTensor) -> TchTensor {

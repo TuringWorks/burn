@@ -201,7 +201,7 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
     }
 
     fn int_neg(tensor: TchTensor) -> TchTensor {
-        Self::int_mul_scalar(tensor, -1)
+        tensor.unary_ops(|mut tensor| tensor.neg_(), |tensor| tensor.neg())
     }
 
     fn int_zeros(
