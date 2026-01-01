@@ -4,7 +4,8 @@ use burn_backend::backend::ExecutionError;
 use burn_backend::tensor::{BoolTensor, FloatTensor, IntTensor};
 use burn_backend::{
     DType, Distribution, ElementConversion, FloatDType, Shape, TensorData, TensorMetadata,
-    backend::Backend, ops::FloatTensorOps,
+    backend::Backend,
+    ops::{FloatTensorOps, GridSampleOptions, GridSamplePaddingMode, InterpolateMode},
 };
 use burn_backend::{bf16, f16};
 
@@ -508,5 +509,34 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
 
     fn float_is_inf(tensor: FloatTensor<Self>) -> BoolTensor<Self> {
         TchTensor::new(tensor.tensor.isinf())
+    }
+
+    fn float_grid_sample_2d(
+        tensor: FloatTensor<Self>,
+        grid: FloatTensor<Self>,
+        options: GridSampleOptions,
+    ) -> FloatTensor<Self> {
+        // Map InterpolateMode to tch interpolation_mode:
+        // 0 = bilinear, 1 = nearest, 2 = bicubic
+        let interpolation_mode: i64 = match options.mode {
+            InterpolateMode::Bilinear => 0,
+            InterpolateMode::Nearest => 1,
+            InterpolateMode::Bicubic => 2,
+        };
+
+        // Map GridSamplePaddingMode to tch padding_mode:
+        // 0 = zeros, 1 = border, 2 = reflection
+        let padding_mode: i64 = match options.padding_mode {
+            GridSamplePaddingMode::Zeros => 0,
+            GridSamplePaddingMode::Border => 1,
+            GridSamplePaddingMode::Reflection => 2,
+        };
+
+        let result = tensor
+            .tensor
+            .f_grid_sampler_2d(&grid.tensor, interpolation_mode, padding_mode, options.align_corners)
+            .expect("grid_sampler_2d failed");
+
+        TchTensor::new(result)
     }
 }

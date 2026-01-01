@@ -87,9 +87,18 @@ impl burn_backend::Device for LibTorchDevice {
         }
     }
 
-    fn device_count(_type_id: u16) -> usize {
-        // TODO: Somehow find the info using the tch API.
-        1
+    fn device_count(type_id: u16) -> usize {
+        match type_id {
+            // CUDA devices
+            0 => tch::Cuda::device_count() as usize,
+            // MPS (Metal) - single GPU
+            1 => 1,
+            // CPU - single device
+            2 => 1,
+            // Vulkan - single device (no API to query count)
+            3 => 1,
+            _ => 0,
+        }
     }
 }
 
