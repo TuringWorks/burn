@@ -217,4 +217,20 @@ impl<E: TchElement> BoolTensorOps<Self> for LibTorch<E> {
     fn bool_equal_elem(lhs: BoolTensor<Self>, rhs: BoolElem<Self>) -> BoolTensor<Self> {
         TchOps::equal_elem(lhs, rhs.elem::<i64>())
     }
+
+    fn bool_all(tensor: BoolTensor<Self>) -> BoolTensor<Self> {
+        TchTensor::new(tensor.tensor.all())
+    }
+
+    fn bool_all_dim(tensor: BoolTensor<Self>, dim: usize) -> BoolTensor<Self> {
+        TchTensor::new(tensor.tensor.all_dim(dim as i64, false))
+    }
+
+    fn bool_any(tensor: BoolTensor<Self>) -> BoolTensor<Self> {
+        TchTensor::new(tensor.tensor.any())
+    }
+
+    fn bool_any_dim(tensor: BoolTensor<Self>, dim: usize) -> BoolTensor<Self> {
+        TchTensor::new(tensor.tensor.any_dim(dim as i64, false))
+    }
 }

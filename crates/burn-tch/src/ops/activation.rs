@@ -34,4 +34,14 @@ impl<E: TchElement> ActivationOps<Self> for LibTorch<E> {
 
         TchTensor::from_existing(tensor, storage)
     }
+
+    fn prelu(tensor: TchTensor, alpha: TchTensor) -> TchTensor {
+        let storage = tensor.storage.clone();
+        let tensor = tensor
+            .tensor
+            .f_internal_prelu_kernel(&alpha.tensor)
+            .expect("prelu failed");
+
+        TchTensor::from_existing(tensor, storage)
+    }
 }

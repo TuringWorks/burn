@@ -513,4 +513,28 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
     ) -> IntTensor<Self> {
         TchOps::unfold(tensor, dim, size, step)
     }
+
+    fn int_all(tensor: IntTensor<Self>) -> burn_backend::tensor::BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's all()
+        let bool_tensor = tensor.tensor.ne(0);
+        TchTensor::new(bool_tensor.all())
+    }
+
+    fn int_all_dim(tensor: IntTensor<Self>, dim: usize) -> burn_backend::tensor::BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's all_dim()
+        let bool_tensor = tensor.tensor.ne(0);
+        TchTensor::new(bool_tensor.all_dim(dim as i64, false))
+    }
+
+    fn int_any(tensor: IntTensor<Self>) -> burn_backend::tensor::BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's any()
+        let bool_tensor = tensor.tensor.ne(0);
+        TchTensor::new(bool_tensor.any())
+    }
+
+    fn int_any_dim(tensor: IntTensor<Self>, dim: usize) -> burn_backend::tensor::BoolTensor<Self> {
+        // Convert to bool (non-zero = true), then use tch's any_dim()
+        let bool_tensor = tensor.tensor.ne(0);
+        TchTensor::new(bool_tensor.any_dim(dim as i64, false))
+    }
 }
