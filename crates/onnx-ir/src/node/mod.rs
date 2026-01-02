@@ -86,6 +86,7 @@ pub mod is_nan;
 pub mod layer_norm;
 pub mod leaky_relu;
 pub mod linear;
+pub mod lp_norm;
 pub mod log_softmax;
 pub mod loop_node;
 pub mod lstm;

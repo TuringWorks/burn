@@ -650,6 +650,12 @@ impl ProcessorRegistry {
             Box::new(crate::node::rms_norm::RmsNormProcessor),
         );
 
+        // LpNormalization
+        registry.register(
+            NodeType::LpNormalization,
+            Box::new(crate::node::lp_norm::LpNormProcessor),
+        );
+
         registry
     }
 }

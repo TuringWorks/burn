@@ -343,7 +343,7 @@ define_node_enum! {
     Hardmax => unsupported::HardmaxNode,
     Im => unsupported::ImNode,
     ImageDecoder => unsupported::ImageDecoderNode,
-    LpNormalization => unsupported::LpNormalizationNode,
+    LpNormalization => lp_norm::LpNormalizationNode,
     LpPool => unsupported::LpPoolNode,
     Lrn => unsupported::LrnNode,
     Lstm => lstm::LstmNode,

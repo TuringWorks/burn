@@ -78,12 +78,12 @@ functionality.
 | [Gemm][62]                       | ✅             | ✅           |
 | [GlobalAveragePool][63]          | ✅             | ✅           |
 | [GlobalLpPool][64]               | ❌             | ❌           |
-| [GlobalMaxPool][65]              | ❌             | ❌           |
+| [GlobalMaxPool][65]              | ✅             | ✅           |
 | [Greater][66]                    | ✅             | ✅           |
 | [GreaterOrEqual][67]             | ✅             | ✅           |
 | [GridSample][68]                 | ✅             | ✅           |
 | [GroupNormalization][69]         | ✅             | ✅           |
-| [GRU][70]                        | ❌             | ✅           |
+| [GRU][70]                        | ✅             | ✅           |
 | [HammingWindow][71]              | ❌             | ❌           |
 | [HannWindow][72]                 | ❌             | ❌           |
 | [Hardmax][73]                    | ❌             | ❌           |
@@ -104,7 +104,7 @@ functionality.
 | [Log][87]                        | ✅             | ✅           |
 | [LogSoftmax][88]                 | ✅             | ✅           |
 | [Loop][89]                       | ✅             | ✅           |
-| [LpNormalization][90]            | ❌             | ❌           |
+| [LpNormalization][90]            | ✅             | ✅           |
 | [LpPool][91]                     | ❌             | ❌           |
 | [LRN][92]                        | ❌             | ❌           |
 | [LSTM][93]                       | ✅             | ✅           |
@@ -139,7 +139,7 @@ functionality.
 | [QLinearConv][123]               | ❌             | ❌           |
 | [QLinearMatMul][124]             | ❌             | ❌           |
 | [QuantizeLinear][125]            | ❌             | ❌           |
-| [RMSNormalization][198]          | ❌             | ❌           |
+| [RMSNormalization][198]          | ✅             | ✅           |
 | [RNN][145]                       | ❌             | ✅           |
 | [RandomNormal][126]              | ✅             | ✅           |
 | [RandomNormalLike][127]          | ✅             | ✅           |
@@ -199,7 +199,7 @@ functionality.
 | [StringSplit][202]               | ❌             | ❌           |
 | [Sub][179]                       | ✅             | ✅           |
 | [Sum][180]                       | ✅             | ✅           |
-| [Swish][203]                     | ❌             | ❌           |
+| [Swish][203]                     | ✅             | ✅           |
 | [Tan][181]                       | ✅             | ✅           |
 | [Tanh][182]                      | ✅             | ✅           |
 | [TensorScatter][204]             | ❌             | ❌           |

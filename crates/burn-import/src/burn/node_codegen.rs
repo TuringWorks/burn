@@ -160,6 +160,7 @@ impl_node_codegen_dispatch! {
     LayerNormalization,
     GroupNormalization,
     InstanceNormalization,
+    LpNormalization,
 
     // Other ops
     Cast,

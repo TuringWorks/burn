@@ -74,6 +74,7 @@ pub(crate) mod is_nan;
 pub(crate) mod layer_norm;
 pub(crate) mod leaky_relu;
 pub(crate) mod linear;
+pub(crate) mod lp_norm;
 pub(crate) mod log;
 pub(crate) mod log_softmax;
 pub(crate) mod loop_node;
