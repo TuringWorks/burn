@@ -169,32 +169,46 @@ impl SafetensorsStore {
     /// ```rust,no_run
     /// # use burn_store::SafetensorsStore;
     /// let store = SafetensorsStore::from_file("model.safetensors")
-    ///     .with_regex(r"^encoder\..*")  // Match all encoder tensors
-    ///     .with_regex(r".*\.weight$");   // OR match any weight tensors
+    ///     .with_regex(r"^encoder\..*")?  // Match all encoder tensors
+    ///     .with_regex(r".*\.weight$")?;   // OR match any weight tensors
+    /// # Ok::<(), regex::Error>(())
     /// ```
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Self {
+    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Result<Self, regex::Error> {
         match &mut self {
             #[cfg(feature = "std")]
-            Self::File(p) => p.filter = p.filter.clone().with_regex(pattern),
-            Self::Memory(p) => p.filter = p.filter.clone().with_regex(pattern),
+            Self::File(p) => p.filter = p.filter.clone().with_regex(pattern)?,
+            Self::Memory(p) => p.filter = p.filter.clone().with_regex(pattern)?,
         }
-        self
+        Ok(self)
     }
 
     /// Add multiple regex patterns to filter tensors.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if any regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn with_regexes<I, S>(mut self, patterns: I) -> Self
+    pub fn with_regexes<I, S>(mut self, patterns: I) -> Result<Self, regex::Error>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<str>,
     {
+        let patterns: Vec<_> = patterns.into_iter().collect();
         match &mut self {
             #[cfg(feature = "std")]
-            Self::File(p) => p.filter = p.filter.clone().with_regexes(patterns),
-            Self::Memory(p) => p.filter = p.filter.clone().with_regexes(patterns),
+            Self::File(p) => {
+                p.filter = p.filter.clone().with_regexes(patterns.iter().map(|s| s.as_ref()))?
+            }
+            Self::Memory(p) => {
+                p.filter = p.filter.clone().with_regexes(patterns.iter().map(|s| s.as_ref()))?
+            }
         }
-        self
+        Ok(self)
     }
 
     /// Add an exact full path to match.

@@ -142,22 +142,31 @@ impl PytorchStore {
     /// ```rust,no_run
     /// # use burn_store::PytorchStore;
     /// let store = PytorchStore::from_file("model.pth")
-    ///     .with_regex(r"^encoder\..*")  // Match all encoder tensors
-    ///     .with_regex(r".*\.weight$");   // OR match any weight tensors
+    ///     .with_regex(r"^encoder\..*")?  // Match all encoder tensors
+    ///     .with_regex(r".*\.weight$")?;   // OR match any weight tensors
+    /// # Ok::<(), regex::Error>(())
     /// ```
-    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Self {
-        self.filter = self.filter.with_regex(pattern);
-        self
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the regex pattern is invalid.
+    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Result<Self, regex::Error> {
+        self.filter = self.filter.with_regex(pattern)?;
+        Ok(self)
     }
 
     /// Add multiple regex patterns to filter tensors.
-    pub fn with_regexes<I, S>(mut self, patterns: I) -> Self
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if any regex pattern is invalid.
+    pub fn with_regexes<I, S>(mut self, patterns: I) -> Result<Self, regex::Error>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<str>,
     {
-        self.filter = self.filter.with_regexes(patterns);
-        self
+        self.filter = self.filter.with_regexes(patterns)?;
+        Ok(self)
     }
 
     /// Add an exact full path to match.

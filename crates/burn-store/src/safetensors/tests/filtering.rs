@@ -12,13 +12,15 @@ fn filtered_export_import() {
     let mut module2 = ComplexModule::<TestBackend>::new_zeros(&device);
 
     // Export only encoder tensors using the builder pattern
-    let mut save_store = SafetensorsStore::from_bytes(None).with_regex(r"^encoder\..*");
+    let mut save_store = SafetensorsStore::from_bytes(None)
+        .with_regex(r"^encoder\..*")
+        .unwrap();
     module1.save_into(&mut save_store).unwrap();
 
     // Import filtered tensors - need to allow partial since we only saved encoder tensors
     let mut load_store = SafetensorsStore::from_bytes(None).allow_partial(true);
     if let SafetensorsStore::Memory(ref mut p) = load_store
-        && let SafetensorsStore::Memory(ref p_save) = save_store
+        && let SafetensorsStore::Memory(p_save) = &save_store
     {
         // Get Arc and extract data
         let data_arc = p_save.data().unwrap();
@@ -40,7 +42,9 @@ fn builder_pattern_filtering() {
     // Test with_regex - multiple patterns (OR logic)
     let mut store = SafetensorsStore::from_bytes(None)
         .with_regex(r"^encoder\..*") // Match encoder tensors
-        .with_regex(r".*\.bias$"); // OR match any bias tensors
+        .unwrap()
+        .with_regex(r".*\.bias$") // OR match any bias tensors
+        .unwrap();
 
     let views = module.collect(None, None, false);
     let filtered_count = views
@@ -121,6 +125,7 @@ fn builder_pattern_combined() {
     {
         let mut store = SafetensorsStore::from_bytes(None)
             .with_regex(r"^encoder\..*") // All encoder tensors
+            .unwrap()
             .with_full_path("decoder.scale") // Plus specific decoder.scale
             .with_predicate(|path, _| {
                 // Plus any projection tensors

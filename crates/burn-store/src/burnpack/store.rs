@@ -266,11 +266,15 @@ impl BurnpackStore {
     }
 
     /// Add regex pattern to filter
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn with_regex(mut self, pattern: &str) -> Self {
+    pub fn with_regex(mut self, pattern: &str) -> Result<Self, regex::Error> {
         let filter = self.filter.unwrap_or_default();
-        self.filter = Some(filter.with_regex(pattern));
-        self
+        self.filter = Some(filter.with_regex(pattern)?);
+        Ok(self)
     }
 
     /// Add exact path to filter

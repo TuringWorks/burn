@@ -91,6 +91,7 @@ mod basic_tests {
             .validate(false)
             .allow_partial(true)
             .with_regex(r"^encoder\.")
+            .unwrap()
             .with_full_path("decoder.weight");
 
         assert!(!store.validate);
@@ -209,6 +210,7 @@ mod linear_model_tests {
         // Only load fc1 layers
         let mut store = PytorchStore::from_file(path)
             .with_regex(r"^fc1\.")
+            .unwrap()
             .allow_partial(true);
 
         let result = store.apply_to::<TestBackend, _>(&mut model).unwrap();
@@ -552,6 +554,7 @@ mod error_handling_tests {
         // Apply very restrictive filter that matches nothing
         let mut store = PytorchStore::from_file(path)
             .with_regex(r"^this_will_never_match$")
+            .unwrap()
             .validate(true)
             .allow_partial(false);
 
@@ -964,7 +967,7 @@ mod direct_access_tests {
         }
 
         // Create store with filter that only matches fc1
-        let mut store = PytorchStore::from_file(path).with_regex(r"^fc1\.");
+        let mut store = PytorchStore::from_file(path).with_regex(r"^fc1\.").unwrap();
 
         // get_all_snapshots should return ALL tensors regardless of filter
         let snapshots = store.get_all_snapshots().unwrap();

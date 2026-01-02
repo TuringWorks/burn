@@ -147,6 +147,7 @@ fn with_filtering() {
     // Save only encoder tensors using the builder pattern
     let mut save_store = SafetensorsStore::from_bytes(None)
         .with_regex(r"^encoder\..*")
+        .unwrap()
         .metadata("subset", "encoder_only");
 
     model.save_into(&mut save_store).unwrap();
@@ -154,7 +155,7 @@ fn with_filtering() {
     // Load into new model - need to allow partial loading since we only saved encoder tensors
     let mut load_store = SafetensorsStore::from_bytes(None).allow_partial(true);
     if let SafetensorsStore::Memory(ref mut p) = load_store
-        && let SafetensorsStore::Memory(ref p_save) = save_store
+        && let SafetensorsStore::Memory(p_save) = &save_store
     {
         p.set_data(p_save.data().unwrap().as_ref().clone());
     }

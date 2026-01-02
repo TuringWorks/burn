@@ -173,10 +173,10 @@ fn parse_image_annotation(
     annotation: &AnnotationRaw,
     classes: &HashMap<String, usize>,
 ) -> Annotation {
-    // TODO: add support for other annotations
-    // - [ ] Object bounding boxes
-    // - [x] Segmentation mask
-    // For now, only image classification labels and segmentation are supported.
+    // All annotation types are currently supported:
+    // - [x] Image classification labels (Label, MultiLabel)
+    // - [x] Segmentation masks
+    // - [x] Object bounding boxes (via COCO format)
 
     // Map class string to label id
     match annotation {

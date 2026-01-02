@@ -40,9 +40,13 @@ impl StatusState {
         self.mode = Mode::Valid;
     }
     /// Update the testing information.
-    pub(crate) fn update_test(&mut self, _progress: EvaluationProgress) {
-        // TODO: Use the progress here.
-        // self.progress = progress;
+    pub(crate) fn update_test(&mut self, progress: EvaluationProgress) {
+        // Update the available fields from EvaluationProgress
+        // (EvaluationProgress doesn't have epoch info, so we reset those)
+        self.progress.progress = progress.progress;
+        self.progress.iteration = progress.iteration;
+        self.progress.epoch = 0;
+        self.progress.epoch_total = 0;
         self.mode = Mode::Evaluation;
     }
     /// Create a view.
@@ -59,32 +63,35 @@ impl StatusView {
     fn new(progress: &TrainingProgress, mode: &Mode) -> Self {
         let title = |title: &str| Span::from(format!(" {title} ")).bold().yellow();
         let value = |value: String| Span::from(value).italic();
-        let mode = match mode {
+        let mode_str = match mode {
             Mode::Valid => "Validating",
             Mode::Train => "Training",
             Mode::Evaluation => "Evaluation",
         };
 
-        Self {
-            lines: vec![
-                vec![title("Mode      :"), value(mode.to_string())],
-                vec![
-                    title("Epoch     :"),
-                    value(format!("{}/{}", progress.epoch, progress.epoch_total)),
-                ],
-                vec![
-                    title("Iteration :"),
-                    value(format!("{}", progress.iteration)),
-                ],
-                vec![
-                    title("Items     :"),
-                    value(format!(
-                        "{}/{}",
-                        progress.progress.items_processed, progress.progress.items_total
-                    )),
-                ],
-            ],
+        let mut lines = vec![vec![title("Mode      :"), value(mode_str.to_string())]];
+
+        // Only show epoch info for training/validation modes
+        if !matches!(mode, Mode::Evaluation) {
+            lines.push(vec![
+                title("Epoch     :"),
+                value(format!("{}/{}", progress.epoch, progress.epoch_total)),
+            ]);
         }
+
+        lines.push(vec![
+            title("Iteration :"),
+            value(format!("{}", progress.iteration)),
+        ]);
+        lines.push(vec![
+            title("Items     :"),
+            value(format!(
+                "{}/{}",
+                progress.progress.items_processed, progress.progress.items_total
+            )),
+        ]);
+
+        Self { lines }
     }
 
     pub(crate) fn render(self, frame: &mut TerminalFrame<'_>, size: Rect) {

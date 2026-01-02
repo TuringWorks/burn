@@ -17,14 +17,15 @@ use regex::Regex;
 /// # use burn_store::PathFilter;
 /// // Create a filter that matches encoder paths or any weight path
 /// let filter = PathFilter::new()
-///     .with_regex(r"^encoder\..*")
-///     .with_regex(r".*\.weight$")
+///     .with_regex(r"^encoder\..*")?
+///     .with_regex(r".*\.weight$")?
 ///     .with_full_path("special_tensor");
 ///
 /// // Check if a path should be included
 /// if filter.matches("encoder.layer1.weight") {
 ///     // This will match due to both regex patterns
 /// }
+/// # Ok::<(), regex::Error>(())
 /// ```
 #[derive(Debug, Clone, Default)]
 pub struct PathFilter {
@@ -63,28 +64,33 @@ impl PathFilter {
     }
 
     /// Add a regex pattern for matching paths
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Self {
-        if let Ok(regex) = Regex::new(pattern.as_ref()) {
-            self.regex_patterns.push(regex);
-        }
-        // TODO: Consider returning Result to handle regex compilation errors
-        self
+    pub fn with_regex<S: AsRef<str>>(mut self, pattern: S) -> Result<Self, regex::Error> {
+        let regex = Regex::new(pattern.as_ref())?;
+        self.regex_patterns.push(regex);
+        Ok(self)
     }
 
     /// Add multiple regex patterns
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if any regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn with_regexes<I, S>(mut self, patterns: I) -> Self
+    pub fn with_regexes<I, S>(mut self, patterns: I) -> Result<Self, regex::Error>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<str>,
     {
         for pattern in patterns {
-            if let Ok(regex) = Regex::new(pattern.as_ref()) {
-                self.regex_patterns.push(regex);
-            }
+            let regex = Regex::new(pattern.as_ref())?;
+            self.regex_patterns.push(regex);
         }
-        self
+        Ok(self)
     }
 
     /// Add an exact full path to match
@@ -242,8 +248,12 @@ impl PathFilter {
     }
 
     /// Create a filter from regex patterns only
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if any regex pattern is invalid.
     #[cfg(feature = "std")]
-    pub fn from_regex_patterns<I, S>(patterns: I) -> Self
+    pub fn from_regex_patterns<I, S>(patterns: I) -> Result<Self, regex::Error>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<str>,
@@ -352,7 +362,9 @@ mod tests {
     fn regex_patterns() {
         let filter = PathFilter::new()
             .with_regex(r"^encoder\..*")
-            .with_regex(r".*\.weight$");
+            .unwrap()
+            .with_regex(r".*\.weight$")
+            .unwrap();
 
         assert!(filter.matches("encoder.layer1.bias"));
         assert!(filter.matches("decoder.weight"));
@@ -387,7 +399,7 @@ mod tests {
             .with_predicate(|path, _container_path| path.contains("attention"));
 
         #[cfg(feature = "std")]
-        let filter = filter.with_regex(r"^encoder\..*");
+        let filter = filter.with_regex(r"^encoder\..*").unwrap();
 
         assert!(filter.matches("special.tensor"));
         assert!(filter.matches("self_attention.query"));
@@ -414,12 +426,12 @@ mod tests {
     #[cfg(feature = "std")]
     fn common_patterns() {
         // Test encoder pattern
-        let encoder = PathFilter::new().with_regex(r"^encoder\..*");
+        let encoder = PathFilter::new().with_regex(r"^encoder\..*").unwrap();
         assert!(encoder.matches("encoder.weight"));
         assert!(!encoder.matches("decoder.weight"));
 
         // Test weights-only pattern
-        let weights = PathFilter::new().with_regex(r".*\.weight$");
+        let weights = PathFilter::new().with_regex(r".*\.weight$").unwrap();
         assert!(weights.matches("encoder.weight"));
         assert!(weights.matches("decoder.weight"));
         assert!(!weights.matches("encoder.bias"));
@@ -427,8 +439,11 @@ mod tests {
         // Test layer-specific patterns
         let layers = PathFilter::new()
             .with_regex(r"(^|.*\.)layers\.0\.")
+            .unwrap()
             .with_regex(r"(^|.*\.)layers\.2\.")
-            .with_regex(r"(^|.*\.)layers\.4\.");
+            .unwrap()
+            .with_regex(r"(^|.*\.)layers\.4\.")
+            .unwrap();
         assert!(layers.matches("model.layers.0.weight"));
         assert!(layers.matches("layers.2.bias"));
         assert!(!layers.matches("layers.1.weight"));
@@ -442,7 +457,7 @@ mod tests {
             .with_predicate(|_, _| true);
 
         #[cfg(feature = "std")]
-        let filter = filter.with_regex(".*");
+        let filter = filter.with_regex(".*").unwrap();
 
         #[cfg(feature = "std")]
         assert_eq!(filter.criteria_count(), 4);
@@ -503,6 +518,7 @@ mod tests {
         {
             let filter = PathFilter::new()
                 .with_regex(r"^encoder\..*")
+                .unwrap()
                 .with_predicate(|path, container_path| {
                     container_path.split('.').next_back() == Some("Linear")
                         && path.contains(".bias")
@@ -515,6 +531,22 @@ mod tests {
             // Doesn't match either
             assert!(!filter.matches_with_container("decoder.conv.weight", "Conv2d"));
         }
+    }
+
+    #[test]
+    #[cfg(feature = "std")]
+    fn invalid_regex_returns_error() {
+        // Invalid regex pattern (unclosed group)
+        let result = PathFilter::new().with_regex(r"(unclosed");
+        assert!(result.is_err());
+
+        // Invalid regex in with_regexes
+        let result = PathFilter::new().with_regexes([r"valid", r"(invalid"]);
+        assert!(result.is_err());
+
+        // Invalid regex in from_regex_patterns
+        let result = PathFilter::from_regex_patterns([r"(invalid"]);
+        assert!(result.is_err());
     }
 
     #[test]

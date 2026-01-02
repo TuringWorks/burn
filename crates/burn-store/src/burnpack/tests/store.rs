@@ -148,7 +148,9 @@ fn test_store_with_path_filter() {
     let bytes = save_store.get_bytes().unwrap();
 
     // Load with filter - only load weight and bias (not nested)
-    let mut load_store = BurnpackStore::from_bytes(Some(bytes)).with_regex("^(weight|bias)$");
+    let mut load_store = BurnpackStore::from_bytes(Some(bytes))
+        .with_regex("^(weight|bias)$")
+        .unwrap();
 
     let mut module2 = TestModule::<TestBackend>::new_zeros(&device);
     let result = load_store.apply_to(&mut module2).unwrap();
@@ -287,6 +289,7 @@ fn test_store_chain_multiple_patterns() {
         .metadata("version", "1.0")
         .metadata("format", "burnpack")
         .with_regex(r"^(weight|nested\.)")
+        .unwrap()
         .match_all(); // This overrides the previous filter
 
     save_store.collect_from(&module).unwrap();
@@ -702,7 +705,7 @@ fn test_partial_loading_preserves_lazy_initialization() {
     );
 
     // Partial load: only load weight and bias (skip nested.*)
-    let filter = PathFilter::new().with_regex("^(weight|bias)$");
+    let filter = PathFilter::new().with_regex("^(weight|bias)$").unwrap();
     let mut load_store = BurnpackStore::from_file(&path).filter(filter);
     let result = load_module.load_from(&mut load_store).unwrap();
 

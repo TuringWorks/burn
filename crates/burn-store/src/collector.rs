@@ -313,7 +313,7 @@ mod tests {
         let device = Default::default();
         let tensor = Tensor::<TestBackend, 2>::from_data([[1.0, 2.0], [3.0, 4.0]], &device);
 
-        let filter = PathFilter::new().with_regex(r"^encoder\..*");
+        let filter = PathFilter::new().with_regex(r"^encoder\..*").unwrap();
         let mut collector = Collector::new(Some(filter), None, false);
         let id = ParamId::new();
 
@@ -343,7 +343,9 @@ mod tests {
         // Multiple patterns - collect if matches ANY (OR union)
         let filter = PathFilter::new()
             .with_regex(r"^encoder\..*") // Match encoder.*
-            .with_regex(r".*\.bias$"); // Match *.bias
+            .unwrap()
+            .with_regex(r".*\.bias$") // Match *.bias
+            .unwrap();
         let mut collector = Collector::new(Some(filter), None, false);
         let id = ParamId::new();
 
@@ -748,7 +750,7 @@ mod tests {
         // Test filtering at different depths
         #[cfg(target_has_atomic = "ptr")]
         {
-            let filter = PathFilter::new().with_regex(r"^backbone\.encoder\..*");
+            let filter = PathFilter::new().with_regex(r"^backbone\.encoder\..*").unwrap();
             let mut collector = Collector::new(Some(filter), None, false);
             model.visit(&mut collector);
             assert_eq!(collector.tensors.len(), 8); // Only encoder tensors
@@ -757,7 +759,7 @@ mod tests {
         // Test filtering specific blocks
         #[cfg(target_has_atomic = "ptr")]
         {
-            let filter = PathFilter::new().with_regex(r".*\.block1\..*");
+            let filter = PathFilter::new().with_regex(r".*\.block1\..*").unwrap();
             let mut collector = Collector::new(Some(filter), None, false);
             model.visit(&mut collector);
             assert_eq!(collector.tensors.len(), 8); // block1 in both encoder and decoder
@@ -766,7 +768,7 @@ mod tests {
         // Test filtering by tensor type at any depth
         #[cfg(target_has_atomic = "ptr")]
         {
-            let filter = PathFilter::new().with_regex(r".*\.weight$");
+            let filter = PathFilter::new().with_regex(r".*\.weight$").unwrap();
             let mut collector = Collector::new(Some(filter), None, false);
             model.visit(&mut collector);
             assert_eq!(collector.tensors.len(), 9); // All weight tensors
@@ -777,8 +779,11 @@ mod tests {
         {
             let filter = PathFilter::new()
                 .with_regex(r"^backbone\.encoder\.block1\..*") // All encoder.block1 tensors
+                .unwrap()
                 .with_regex(r"^backbone\.decoder\..*\.bias$") // All decoder biases
-                .with_regex(r"^head\.weight$"); // Head weight only
+                .unwrap()
+                .with_regex(r"^head\.weight$") // Head weight only
+                .unwrap();
             let mut collector = Collector::new(Some(filter), None, false);
             model.visit(&mut collector);
 
