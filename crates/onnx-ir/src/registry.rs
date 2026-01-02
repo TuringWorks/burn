@@ -638,6 +638,18 @@ impl ProcessorRegistry {
         registry.register(NodeType::Lstm, Box::new(crate::node::lstm::LstmProcessor));
         registry.register(NodeType::Gru, Box::new(crate::node::gru::GruProcessor));
 
+        // Activation functions
+        registry.register(
+            NodeType::Swish,
+            Box::new(crate::node::swish::SwishProcessor),
+        );
+
+        // RMSNormalization
+        registry.register(
+            NodeType::RMSNormalization,
+            Box::new(crate::node::rms_norm::RmsNormProcessor),
+        );
+
         registry
     }
 }

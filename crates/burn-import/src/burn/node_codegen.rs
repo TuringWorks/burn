@@ -117,6 +117,7 @@ impl_node_codegen_dispatch! {
     Mish,
     Softplus,
     Softsign,
+    Swish,
     ThresholdedRelu,
 
     // Shape ops
@@ -234,4 +235,7 @@ impl_node_codegen_dispatch! {
     ReduceL2,
     ReduceLogSum,
     ReduceLogSumExp,
+
+    // RMS Normalization
+    RMSNormalization,
 }
