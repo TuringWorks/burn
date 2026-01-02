@@ -44,7 +44,6 @@ define_placeholder_node! {
     GatherNDNode,
     HammingWindowNode,
     HannWindowNode,
-    HardmaxNode,
     ImNode,
     ImageDecoderNode,
     LpPoolNode,

@@ -115,6 +115,7 @@ impl_node_codegen_dispatch! {
     LeakyRelu,
     HardSigmoid,
     HardSwish,
+    Hardmax,
     Softmax,
     LogSoftmax,
     PRelu,
