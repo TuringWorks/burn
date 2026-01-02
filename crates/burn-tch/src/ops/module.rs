@@ -8,6 +8,8 @@ use burn_backend::{
     },
 };
 
+use super::deform_conv;
+
 impl<E: TchElement> ModuleOps<Self> for LibTorch<E> {
     fn embedding(weights: TchTensor, indices: TchTensor) -> TchTensor {
         // Workaround for MPS "Placeholder storage has not been allocated" error.
@@ -117,26 +119,26 @@ impl<E: TchElement> ModuleOps<Self> for LibTorch<E> {
     }
 
     fn deform_conv2d(
-        _x: TchTensor,
-        _offset: TchTensor,
-        _weight: TchTensor,
-        _mask: Option<TchTensor>,
-        _bias: Option<TchTensor>,
-        _options: DeformConvOptions<2>,
+        x: TchTensor,
+        offset: TchTensor,
+        weight: TchTensor,
+        mask: Option<TchTensor>,
+        bias: Option<TchTensor>,
+        options: DeformConvOptions<2>,
     ) -> TchTensor {
-        unimplemented!("Torch bindings don't support deform_conv2d");
+        deform_conv::deform_conv2d(x, offset, weight, mask, bias, options)
     }
 
     fn deform_conv2d_backward(
-        _x: TchTensor,
-        _offset: TchTensor,
-        _weight: TchTensor,
-        _mask: Option<TchTensor>,
-        _bias: Option<TchTensor>,
-        _out_grad: TchTensor,
-        _options: DeformConvOptions<2>,
+        x: TchTensor,
+        offset: TchTensor,
+        weight: TchTensor,
+        mask: Option<TchTensor>,
+        bias: Option<TchTensor>,
+        out_grad: TchTensor,
+        options: DeformConvOptions<2>,
     ) -> DeformConv2dBackward<Self> {
-        unimplemented!("Torch bindings don't support deform_conv2d");
+        deform_conv::backward::deform_conv2d_backward(x, offset, weight, mask, bias, out_grad, options)
     }
 
     fn conv_transpose1d(

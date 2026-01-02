@@ -182,7 +182,7 @@ impl<E: TchElement> QTensorOps<Self> for LibTorch<E> {
         // Compute scale for symmetric quantization
         let (a, b) = scheme.value.range();
         let alpha = min_val.abs().max(max_val.abs());
-        let mut scale = (alpha + alpha) / (b as f32 - a as f32);
+        let mut scale = (alpha + alpha) / (b - a);
 
         // Avoid division by zero
         if scale == 0.0 {
