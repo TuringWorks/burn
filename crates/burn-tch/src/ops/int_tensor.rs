@@ -560,25 +560,29 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
 
     fn int_all(tensor: IntTensor<Self>) -> burn_backend::tensor::BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's all()
+        // Reshape to [1] to match expected output shape
         let bool_tensor = tensor.tensor.ne(0);
-        TchTensor::new(bool_tensor.all())
+        TchTensor::new(bool_tensor.all().view([1]))
     }
 
     fn int_all_dim(tensor: IntTensor<Self>, dim: usize) -> burn_backend::tensor::BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's all_dim()
+        // keepdim=true to preserve the dimension with size 1
         let bool_tensor = tensor.tensor.ne(0);
-        TchTensor::new(bool_tensor.all_dim(dim as i64, false))
+        TchTensor::new(bool_tensor.all_dim(dim as i64, true))
     }
 
     fn int_any(tensor: IntTensor<Self>) -> burn_backend::tensor::BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's any()
+        // Reshape to [1] to match expected output shape
         let bool_tensor = tensor.tensor.ne(0);
-        TchTensor::new(bool_tensor.any())
+        TchTensor::new(bool_tensor.any().view([1]))
     }
 
     fn int_any_dim(tensor: IntTensor<Self>, dim: usize) -> burn_backend::tensor::BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's any_dim()
+        // keepdim=true to preserve the dimension with size 1
         let bool_tensor = tensor.tensor.ne(0);
-        TchTensor::new(bool_tensor.any_dim(dim as i64, false))
+        TchTensor::new(bool_tensor.any_dim(dim as i64, true))
     }
 }

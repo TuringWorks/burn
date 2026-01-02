@@ -219,19 +219,23 @@ impl<E: TchElement> BoolTensorOps<Self> for LibTorch<E> {
     }
 
     fn bool_all(tensor: BoolTensor<Self>) -> BoolTensor<Self> {
-        TchTensor::new(tensor.tensor.all())
+        // Reshape to [1] to match expected output shape
+        TchTensor::new(tensor.tensor.all().view([1]))
     }
 
     fn bool_all_dim(tensor: BoolTensor<Self>, dim: usize) -> BoolTensor<Self> {
-        TchTensor::new(tensor.tensor.all_dim(dim as i64, false))
+        // keepdim=true to preserve the dimension with size 1
+        TchTensor::new(tensor.tensor.all_dim(dim as i64, true))
     }
 
     fn bool_any(tensor: BoolTensor<Self>) -> BoolTensor<Self> {
-        TchTensor::new(tensor.tensor.any())
+        // Reshape to [1] to match expected output shape
+        TchTensor::new(tensor.tensor.any().view([1]))
     }
 
     fn bool_any_dim(tensor: BoolTensor<Self>, dim: usize) -> BoolTensor<Self> {
-        TchTensor::new(tensor.tensor.any_dim(dim as i64, false))
+        // keepdim=true to preserve the dimension with size 1
+        TchTensor::new(tensor.tensor.any_dim(dim as i64, true))
     }
 
     fn bool_not_equal(lhs: BoolTensor<Self>, rhs: BoolTensor<Self>) -> BoolTensor<Self> {

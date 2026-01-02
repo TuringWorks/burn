@@ -377,26 +377,30 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
 
     fn float_all(tensor: FloatTensor<Self>) -> BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's all()
+        // Reshape to [1] to match expected output shape
         let bool_tensor = tensor.tensor.ne(0.0);
-        TchTensor::new(bool_tensor.all())
+        TchTensor::new(bool_tensor.all().view([1]))
     }
 
     fn float_all_dim(tensor: FloatTensor<Self>, dim: usize) -> BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's all_dim()
+        // keepdim=true to preserve the dimension with size 1
         let bool_tensor = tensor.tensor.ne(0.0);
-        TchTensor::new(bool_tensor.all_dim(dim as i64, false))
+        TchTensor::new(bool_tensor.all_dim(dim as i64, true))
     }
 
     fn float_any(tensor: FloatTensor<Self>) -> BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's any()
+        // Reshape to [1] to match expected output shape
         let bool_tensor = tensor.tensor.ne(0.0);
-        TchTensor::new(bool_tensor.any())
+        TchTensor::new(bool_tensor.any().view([1]))
     }
 
     fn float_any_dim(tensor: FloatTensor<Self>, dim: usize) -> BoolTensor<Self> {
         // Convert to bool (non-zero = true), then use tch's any_dim()
+        // keepdim=true to preserve the dimension with size 1
         let bool_tensor = tensor.tensor.ne(0.0);
-        TchTensor::new(bool_tensor.any_dim(dim as i64, false))
+        TchTensor::new(bool_tensor.any_dim(dim as i64, true))
     }
 
     fn float_argmax(tensor: TchTensor, dim: usize) -> TchTensor {
