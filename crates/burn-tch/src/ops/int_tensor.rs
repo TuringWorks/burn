@@ -448,6 +448,17 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
         TchTensor::new(tensor)
     }
 
+    fn int_arange_step(range: Range<i64>, step: usize, device: &LibTorchDevice) -> TchTensor {
+        let device: tch::Device = (*device).into();
+        let tensor = tch::Tensor::arange_start_step(
+            range.start,
+            range.end,
+            step as i64,
+            (tch::Kind::Int64, device),
+        );
+        TchTensor::new(tensor)
+    }
+
     fn int_permute(tensor: IntTensor<Self>, axes: &[usize]) -> IntTensor<Self> {
         TchOps::permute(tensor, axes)
     }
@@ -466,6 +477,14 @@ impl<E: TchElement> IntTensorOps<Self> for LibTorch<E> {
 
     fn int_sort(tensor: IntTensor<Self>, dim: usize, descending: bool) -> IntTensor<Self> {
         TchOps::sort(tensor, dim, descending)
+    }
+
+    fn int_sort_with_indices(
+        tensor: IntTensor<Self>,
+        dim: usize,
+        descending: bool,
+    ) -> (IntTensor<Self>, IntTensor<Self>) {
+        TchOps::sort_with_indices(tensor, dim, descending)
     }
 
     fn int_argsort(tensor: IntTensor<Self>, dim: usize, descending: bool) -> IntTensor<Self> {
