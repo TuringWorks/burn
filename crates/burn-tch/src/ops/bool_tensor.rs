@@ -233,4 +233,31 @@ impl<E: TchElement> BoolTensorOps<Self> for LibTorch<E> {
     fn bool_any_dim(tensor: BoolTensor<Self>, dim: usize) -> BoolTensor<Self> {
         TchTensor::new(tensor.tensor.any_dim(dim as i64, false))
     }
+
+    fn bool_not_equal(lhs: BoolTensor<Self>, rhs: BoolTensor<Self>) -> BoolTensor<Self> {
+        TchTensor::binary_ops_tensor(
+            lhs,
+            rhs,
+            |lhs, rhs| lhs.ne_tensor_(rhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| rhs.ne_tensor_(lhs).to_kind(tch::Kind::Bool),
+            |lhs, rhs| lhs.ne_tensor(rhs),
+        )
+    }
+
+    fn bool_not_equal_elem(lhs: BoolTensor<Self>, rhs: BoolElem<Self>) -> BoolTensor<Self> {
+        lhs.unary_ops(
+            |mut tensor| tensor.ne_(rhs.elem::<i64>()).to_kind(tch::Kind::Bool),
+            |tensor| tensor.ne(rhs.elem::<i64>()),
+        )
+    }
+
+    fn bool_xor(lhs: BoolTensor<Self>, rhs: BoolTensor<Self>) -> BoolTensor<Self> {
+        TchTensor::binary_ops_tensor(
+            lhs,
+            rhs,
+            |lhs, rhs| lhs.logical_xor_(rhs),
+            |lhs, rhs| rhs.logical_xor_(lhs),
+            |lhs, rhs| lhs.logical_xor(rhs),
+        )
+    }
 }
