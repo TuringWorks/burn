@@ -78,7 +78,6 @@ define_placeholder_node! {
     SequenceInsertNode,
     SequenceLengthNode,
     SequenceMapNode,
-    ShrinkNode,
     SoftmaxCrossEntropyLossNode,
     SplitToSequenceNode,
     StftNode,

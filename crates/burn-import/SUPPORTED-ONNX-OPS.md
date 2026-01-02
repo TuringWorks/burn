@@ -90,7 +90,7 @@ functionality.
 | [HardSigmoid][74]                | ✅             | ✅           |
 | [HardSwish][75]                  | ✅             | ✅           |
 | [Identity][76]                   | ✅             | ✅           |
-| [If][77]                         | ❌             | ✅           |
+| [If][77]                         | ✅             | ✅           |
 | [Im][78]                         | ❌             | ❌           |
 | [ImageDecoder][197]              | ❌             | ❌           |
 | [InstanceNormalization][79]      | ✅             | ✅           |
@@ -177,7 +177,7 @@ functionality.
 | [SequenceLength][158]            | ❌             | ❌           |
 | [SequenceMap][159]               | ❌             | ❌           |
 | [Shape][160]                     | ✅             | ✅           |
-| [Shrink][161]                    | ❌             | ❌           |
+| [Shrink][161]                    | ✅             | ✅           |
 | [Sigmoid][162]                   | ✅             | ✅           |
 | [Sign][163]                      | ✅             | ✅           |
 | [Sin][164]                       | ✅             | ✅           |

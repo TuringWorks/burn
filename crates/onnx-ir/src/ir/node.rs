@@ -155,6 +155,7 @@ define_node_enum! {
     Floor => floor::FloorNode,
     Round => round::RoundNode,
     Sign => sign::SignNode,
+    Shrink => shrink::ShrinkNode,
     Erf => erf::ErfNode,
 
     // TRIGONOMETRIC OPERATIONS
@@ -374,7 +375,6 @@ define_node_enum! {
     SequenceInsert => unsupported::SequenceInsertNode,
     SequenceLength => unsupported::SequenceLengthNode,
     SequenceMap => unsupported::SequenceMapNode,
-    Shrink => unsupported::ShrinkNode,
     SoftmaxCrossEntropyLoss => unsupported::SoftmaxCrossEntropyLossNode,
     SplitToSequence => unsupported::SplitToSequenceNode,
     Stft => unsupported::StftNode,

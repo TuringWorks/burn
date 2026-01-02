@@ -111,6 +111,7 @@ pub(crate) mod rms_norm;
 pub(crate) mod round;
 pub(crate) mod scan_node;
 pub(crate) mod shape;
+pub(crate) mod shrink;
 pub(crate) mod sigmoid;
 pub(crate) mod sign;
 pub(crate) mod sin;

@@ -29,6 +29,7 @@ pub mod not;
 pub mod reciprocal;
 pub mod round;
 pub mod sigmoid;
+pub mod shrink;
 pub mod sign;
 pub mod sin;
 pub mod sinh;

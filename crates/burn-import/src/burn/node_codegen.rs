@@ -95,6 +95,7 @@ impl_node_codegen_dispatch! {
     Reciprocal,
     Round,
     Sigmoid,
+    Shrink,
     Sign,
     Sin,
     Sinh,
