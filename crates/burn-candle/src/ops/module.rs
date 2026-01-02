@@ -87,7 +87,7 @@ impl<F: FloatCandleElement, I: IntCandleElement> ModuleOps<Self> for Candle<F, I
         bias: Option<FloatTensor<Self>>,
         options: DeformConvOptions<2>,
     ) -> FloatTensor<Self> {
-        unimplemented!("Candle does not support deformable convolutions")
+        super::deform_conv::deform_conv2d::<F, I>(x, offset, weight, mask, bias, options)
     }
 
     fn deform_conv2d_backward(
@@ -99,7 +99,7 @@ impl<F: FloatCandleElement, I: IntCandleElement> ModuleOps<Self> for Candle<F, I
         output_grad: FloatTensor<Self>,
         options: DeformConvOptions<2>,
     ) -> DeformConv2dBackward<Self> {
-        unimplemented!("Candle does not support deformable convolutions")
+        super::deform_conv::deform_conv2d_backward::<F, I>(x, offset, weight, mask, bias, output_grad, options)
     }
 
     fn conv3d(

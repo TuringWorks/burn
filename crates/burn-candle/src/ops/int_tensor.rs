@@ -441,47 +441,47 @@ impl<F: FloatCandleElement, I: IntCandleElement> IntTensorOps<Self> for Candle<F
         sign(tensor)
     }
     fn bitwise_and(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_and is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_and(lhs, rhs)
     }
 
     fn bitwise_and_scalar(lhs: IntTensor<Self>, rhs: IntElem<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_and_scalar is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_and_scalar(lhs, rhs)
     }
 
     fn bitwise_or(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_or is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_or(lhs, rhs)
     }
 
     fn bitwise_or_scalar(lhs: IntTensor<Self>, rhs: IntElem<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_or_scalar is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_or_scalar(lhs, rhs)
     }
 
     fn bitwise_xor(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_xor is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_xor(lhs, rhs)
     }
 
     fn bitwise_xor_scalar(lhs: IntTensor<Self>, rhs: IntElem<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_xor_scalar is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_xor_scalar(lhs, rhs)
     }
 
     fn bitwise_not(tensor: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_not is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_not(tensor)
     }
 
     fn bitwise_left_shift(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_left_shift is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_left_shift(lhs, rhs)
     }
 
     fn bitwise_right_shift(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_right_shift is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_right_shift(lhs, rhs)
     }
 
     fn bitwise_left_shift_scalar(lhs: IntTensor<Self>, rhs: IntElem<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_left_shift_scalar is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_left_shift_scalar(lhs, rhs)
     }
 
     fn bitwise_right_shift_scalar(lhs: IntTensor<Self>, rhs: IntElem<Self>) -> IntTensor<Self> {
-        unimplemented!("bitwise_right_shift_scalar is not implemented for Candle IntTensor");
+        super::bitwise::bitwise_right_shift_scalar(lhs, rhs)
     }
 
     fn int_matmul(lhs: IntTensor<Self>, rhs: IntTensor<Self>) -> IntTensor<Self> {

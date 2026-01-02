@@ -1,7 +1,9 @@
 mod activation;
 mod base;
+mod bitwise;
 mod bool_tensor;
 mod candle_utils;
+mod deform_conv;
 mod int_tensor;
 mod module;
 mod qtensor;
