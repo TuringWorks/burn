@@ -223,6 +223,10 @@ impl ProcessorRegistry {
             NodeType::GlobalAveragePool,
             Box::new(crate::node::global_avg_pool::GlobalAveragePoolProcessor),
         );
+        registry.register(
+            NodeType::GlobalMaxPool,
+            Box::new(crate::node::global_max_pool::GlobalMaxPoolProcessor),
+        );
 
         // Identity operation (typically eliminated during post-processing)
         registry.register(
@@ -231,10 +235,6 @@ impl ProcessorRegistry {
         );
 
         // Unsupported/placeholder operations
-        registry.register(
-            NodeType::GlobalMaxPool,
-            Box::new(crate::node::unsupported::UnsupportedProcessor),
-        );
         registry.register(
             NodeType::GatherND,
             Box::new(crate::node::unsupported::UnsupportedProcessor),

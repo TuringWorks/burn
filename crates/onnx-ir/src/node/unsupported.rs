@@ -42,7 +42,6 @@ define_placeholder_node! {
     DynamicQuantizeLinearNode,
     EinsumNode,
     GatherNDNode,
-    GlobalMaxPoolNode,
     HammingWindowNode,
     HannWindowNode,
     HardmaxNode,
@@ -131,11 +130,6 @@ impl NodeProcessor for UnsupportedProcessor {
         use crate::ir::NodeType;
 
         match builder.node_type {
-            NodeType::GlobalMaxPool => Node::GlobalMaxPool(GlobalMaxPoolNode {
-                name: builder.name,
-                inputs: builder.inputs,
-                outputs: builder.outputs,
-            }),
             NodeType::GatherND => Node::GatherND(GatherNDNode {
                 name: builder.name,
                 inputs: builder.inputs,

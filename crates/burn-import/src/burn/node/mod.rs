@@ -58,6 +58,7 @@ pub(crate) mod gather_elements;
 pub(crate) mod gelu;
 pub(crate) mod gemm;
 pub(crate) mod global_avg_pool;
+pub(crate) mod global_max_pool;
 pub(crate) mod greater;
 pub(crate) mod greater_equal;
 pub(crate) mod grid_sample;
