@@ -44,4 +44,11 @@ impl<E: TchElement> ActivationOps<Self> for LibTorch<E> {
 
         TchTensor::from_existing(tensor, storage)
     }
+
+    fn sigmoid_backward(output: TchTensor, grad: TchTensor) -> TchTensor {
+        let storage = grad.storage.clone();
+        let tensor = tch::Tensor::sigmoid_backward(&grad.tensor, &output.tensor);
+
+        TchTensor::from_existing(tensor, storage)
+    }
 }
