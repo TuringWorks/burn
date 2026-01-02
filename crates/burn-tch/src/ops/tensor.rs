@@ -211,7 +211,10 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
     }
 
     fn float_recip(tensor: TchTensor) -> TchTensor {
-        TchTensor::new(tensor.tensor.reciprocal())
+        tensor.unary_ops(
+            |mut tensor| tensor.f_reciprocal_().unwrap(),
+            |tensor| tensor.reciprocal(),
+        )
     }
 
     fn float_swap_dims(tensor: TchTensor, dim1: usize, dim2: usize) -> TchTensor {
