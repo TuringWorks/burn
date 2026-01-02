@@ -15,6 +15,44 @@ use crate::{
 
 use super::base::{cpu_random, expand, permute, sign, unfold};
 
+/// Apply an element-wise float operation on a tensor.
+/// Used for operations that Candle doesn't support natively.
+fn elementwise_float_op<F: Fn(f64) -> f64>(tensor: CandleTensor, op: F) -> CandleTensor {
+    let dtype = tensor.tensor.dtype();
+    let shape = tensor.tensor.shape().clone();
+    let device = tensor.tensor.device().clone();
+
+    match dtype {
+        candle_core::DType::F64 => {
+            let values: Vec<f64> = tensor.tensor.flatten_all().unwrap().to_vec1().unwrap();
+            let result: Vec<f64> = values.iter().map(|&x| op(x)).collect();
+            CandleTensor::new(candle_core::Tensor::from_vec(result, shape, &device).unwrap())
+        }
+        candle_core::DType::F32 => {
+            let values: Vec<f32> = tensor.tensor.flatten_all().unwrap().to_vec1().unwrap();
+            let result: Vec<f32> = values.iter().map(|&x| op(x as f64) as f32).collect();
+            CandleTensor::new(candle_core::Tensor::from_vec(result, shape, &device).unwrap())
+        }
+        candle_core::DType::F16 => {
+            let values: Vec<f16> = tensor.tensor.flatten_all().unwrap().to_vec1().unwrap();
+            let result: Vec<f16> = values
+                .iter()
+                .map(|&x| f16::from_f64(op(x.to_f64())))
+                .collect();
+            CandleTensor::new(candle_core::Tensor::from_vec(result, shape, &device).unwrap())
+        }
+        candle_core::DType::BF16 => {
+            let values: Vec<bf16> = tensor.tensor.flatten_all().unwrap().to_vec1().unwrap();
+            let result: Vec<bf16> = values
+                .iter()
+                .map(|&x| bf16::from_f64(op(x.to_f64())))
+                .collect();
+            CandleTensor::new(candle_core::Tensor::from_vec(result, shape, &device).unwrap())
+        }
+        _ => panic!("Unsupported dtype for elementwise float operation: {:?}", dtype),
+    }
+}
+
 impl<F: FloatCandleElement, I: IntCandleElement> FloatTensorOps<Self> for Candle<F, I> {
     fn float_from_data(data: TensorData, device: &Device<Self>) -> CandleTensor {
         match data.dtype {
@@ -387,6 +425,30 @@ impl<F: FloatCandleElement, I: IntCandleElement> FloatTensorOps<Self> for Candle
 
     fn float_tanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
         CandleTensor::new(tensor.tensor.tanh().unwrap())
+    }
+
+    fn float_asin(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.asin())
+    }
+
+    fn float_acos(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.acos())
+    }
+
+    fn float_atan(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.atan())
+    }
+
+    fn float_asinh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.asinh())
+    }
+
+    fn float_acosh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.acosh())
+    }
+
+    fn float_atanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        elementwise_float_op(tensor, |x| x.atanh())
     }
 
     fn float_round(tensor: FloatTensor<Self>) -> FloatTensor<Self> {

@@ -842,6 +842,78 @@ impl<R: RunnerChannel> FloatTensorOps<Self> for BackendRouter<R> {
             .output()
     }
 
+    fn float_asin(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Asin(desc),
+            ))
+            .output()
+    }
+
+    fn float_acos(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Acos(desc),
+            ))
+            .output()
+    }
+
+    fn float_atan(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Atan(desc),
+            ))
+            .output()
+    }
+
+    fn float_asinh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Asinh(desc),
+            ))
+            .output()
+    }
+
+    fn float_acosh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Acosh(desc),
+            ))
+            .output()
+    }
+
+    fn float_atanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(OperationIr::Float(
+                desc.out.dtype,
+                FloatOperationIr::Atanh(desc),
+            ))
+            .output()
+    }
+
     fn float_round(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
         let client = tensor.client.clone();
         let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());

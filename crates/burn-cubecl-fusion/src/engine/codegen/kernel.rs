@@ -290,6 +290,8 @@ fn fuse(
             FuseOp::Tanh(op) => {
                 tanh::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
             }
+            // Note: Asin, Acos, Atan, Asinh, Acosh, Atanh are not fusable because
+            // CubeCL's Line type doesn't have ArcXxx trait implementations yet.
             FuseOp::Equal(op) => {
                 equal::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
             }
@@ -901,6 +903,8 @@ unary_func!(sqrt, Line::<C>::sqrt, Float);
 unary_func!(cos, Line::<C>::cos, Float);
 unary_func!(sin, Line::<C>::sin, Float);
 unary_func!(tanh, Line::<C>::tanh, Float);
+// Note: asin, acos, atan, asinh, acosh, atanh are not fusable because
+// CubeCL's Line type doesn't have ArcXxx trait implementations yet.
 unary_func!(erf, Line::<C>::erf, Float);
 unary_func!(recip, Line::<C>::recip, Float);
 unary_func!(abs, Line::<C>::abs, Numeric);

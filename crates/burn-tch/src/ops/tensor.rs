@@ -486,6 +486,30 @@ impl<E: TchElement> FloatTensorOps<Self> for LibTorch<E> {
         tensor.unary_ops(|mut tensor| tensor.tan_(), |tensor| tensor.tan())
     }
 
+    fn float_asin(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.asin_(), |tensor| tensor.asin())
+    }
+
+    fn float_acos(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.acos_(), |tensor| tensor.acos())
+    }
+
+    fn float_atan(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.atan_(), |tensor| tensor.atan())
+    }
+
+    fn float_asinh(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.asinh_(), |tensor| tensor.asinh())
+    }
+
+    fn float_acosh(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.acosh_(), |tensor| tensor.acosh())
+    }
+
+    fn float_atanh(tensor: TchTensor) -> TchTensor {
+        tensor.unary_ops(|mut tensor| tensor.atanh_(), |tensor| tensor.atanh())
+    }
+
     fn float_round(tensor: TchTensor) -> TchTensor {
         tensor.unary_ops(|mut tensor| tensor.round_(), |tensor| tensor.round())
     }

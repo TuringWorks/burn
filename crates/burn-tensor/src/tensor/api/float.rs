@@ -202,6 +202,74 @@ $$\text{erf}\(x\) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt$$
         )))
     }
 
+    /// Applies element wise arc sine operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \arcsin\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = asin(x_i)`")]
+    ///
+    /// Input values should be in the range [-1, 1].
+    pub fn asin(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_asin(
+            self.primitive.tensor(),
+        )))
+    }
+
+    /// Applies element wise arc cosine operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \arccos\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = acos(x_i)`")]
+    ///
+    /// Input values should be in the range [-1, 1].
+    pub fn acos(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_acos(
+            self.primitive.tensor(),
+        )))
+    }
+
+    /// Applies element wise arc tangent operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \arctan\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = atan(x_i)`")]
+    pub fn atan(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_atan(
+            self.primitive.tensor(),
+        )))
+    }
+
+    /// Applies element wise inverse hyperbolic sine operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \text{asinh}\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = asinh(x_i)`")]
+    pub fn asinh(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_asinh(
+            self.primitive.tensor(),
+        )))
+    }
+
+    /// Applies element wise inverse hyperbolic cosine operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \text{acosh}\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = acosh(x_i)`")]
+    ///
+    /// Input values should be >= 1.
+    pub fn acosh(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_acosh(
+            self.primitive.tensor(),
+        )))
+    }
+
+    /// Applies element wise inverse hyperbolic tangent operation.
+    ///
+    #[cfg_attr(doc, doc = r#"$y_i = \text{atanh}\(x_i\)$"#)]
+    #[cfg_attr(not(doc), doc = "`y_i = atanh(x_i)`")]
+    ///
+    /// Input values should be in the range (-1, 1).
+    pub fn atanh(self) -> Self {
+        Self::new(TensorPrimitive::Float(B::float_atanh(
+            self.primitive.tensor(),
+        )))
+    }
+
     /// Applies element wise round operation.
     ///
     /// This function implements the [round half to even](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even)

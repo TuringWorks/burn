@@ -110,6 +110,18 @@ pub enum FloatOperationIr {
     Sin(UnaryOpIr),
     /// Operation corresponding to [tanh](burn_backend::ops::FloatTensorOps::float_tanh).
     Tanh(UnaryOpIr),
+    /// Operation corresponding to [asin](burn_backend::ops::FloatTensorOps::float_asin).
+    Asin(UnaryOpIr),
+    /// Operation corresponding to [acos](burn_backend::ops::FloatTensorOps::float_acos).
+    Acos(UnaryOpIr),
+    /// Operation corresponding to [atan](burn_backend::ops::FloatTensorOps::float_atan).
+    Atan(UnaryOpIr),
+    /// Operation corresponding to [asinh](burn_backend::ops::FloatTensorOps::float_asinh).
+    Asinh(UnaryOpIr),
+    /// Operation corresponding to [acosh](burn_backend::ops::FloatTensorOps::float_acosh).
+    Acosh(UnaryOpIr),
+    /// Operation corresponding to [atanh](burn_backend::ops::FloatTensorOps::float_atanh).
+    Atanh(UnaryOpIr),
     /// Operation corresponding to [round](burn_backend::ops::FloatTensorOps::float_round).
     Round(UnaryOpIr),
     /// Operation corresponding to [floor](burn_backend::ops::FloatTensorOps::float_floor).
@@ -1976,6 +1988,12 @@ impl FloatOperationIr {
             FloatOperationIr::Cos(repr) => Box::new([&repr.input].into_iter()),
             FloatOperationIr::Sin(repr) => Box::new([&repr.input].into_iter()),
             FloatOperationIr::Tanh(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Asin(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Acos(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Atan(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Asinh(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Acosh(repr) => Box::new([&repr.input].into_iter()),
+            FloatOperationIr::Atanh(repr) => Box::new([&repr.input].into_iter()),
             FloatOperationIr::Round(repr) => Box::new([&repr.input].into_iter()),
             FloatOperationIr::Floor(repr) => Box::new([&repr.input].into_iter()),
             FloatOperationIr::Ceil(repr) => Box::new([&repr.input].into_iter()),
@@ -2004,6 +2022,12 @@ impl FloatOperationIr {
             FloatOperationIr::Cos(repr) => Box::new([&repr.out].into_iter()),
             FloatOperationIr::Sin(repr) => Box::new([&repr.out].into_iter()),
             FloatOperationIr::Tanh(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Asin(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Acos(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Atan(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Asinh(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Acosh(repr) => Box::new([&repr.out].into_iter()),
+            FloatOperationIr::Atanh(repr) => Box::new([&repr.out].into_iter()),
             FloatOperationIr::Round(repr) => Box::new([&repr.out].into_iter()),
             FloatOperationIr::Floor(repr) => Box::new([&repr.out].into_iter()),
             FloatOperationIr::Ceil(repr) => Box::new([&repr.out].into_iter()),
@@ -2057,6 +2081,24 @@ impl FloatOperationIr {
                 repr.input.mark_read_only(nodes, &mut output);
             }
             FloatOperationIr::Tanh(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Asin(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Acos(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Atan(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Asinh(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Acosh(repr) => {
+                repr.input.mark_read_only(nodes, &mut output);
+            }
+            FloatOperationIr::Atanh(repr) => {
                 repr.input.mark_read_only(nodes, &mut output);
             }
             FloatOperationIr::Round(repr) => {

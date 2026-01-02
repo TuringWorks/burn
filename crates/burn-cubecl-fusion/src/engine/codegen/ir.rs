@@ -102,6 +102,8 @@ pub enum FuseOp {
     Cos(UnaryFuseArgs),
     Sin(UnaryFuseArgs),
     Tanh(UnaryFuseArgs),
+    // Note: Asin, Acos, Atan, Asinh, Acosh, Atanh are not fusable because
+    // CubeCL's Line type doesn't have ArcXxx trait implementations yet.
     Erf(UnaryFuseArgs),
     Sqrt(UnaryFuseArgs),
     Recip(UnaryFuseArgs),

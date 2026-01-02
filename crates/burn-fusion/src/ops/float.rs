@@ -1551,6 +1551,108 @@ impl<B: FusionBackend> FloatTensorOps<Self> for Fusion<B> {
             .output()
     }
 
+    fn float_asin(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AsinOps, B::float_asin);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Asin(desc.clone())),
+                AsinOps::<B>::new(desc),
+            )
+            .output()
+    }
+
+    fn float_acos(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AcosOps, B::float_acos);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Acos(desc.clone())),
+                AcosOps::<B>::new(desc),
+            )
+            .output()
+    }
+
+    fn float_atan(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AtanOps, B::float_atan);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Atan(desc.clone())),
+                AtanOps::<B>::new(desc),
+            )
+            .output()
+    }
+
+    fn float_asinh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AsinhOps, B::float_asinh);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Asinh(desc.clone())),
+                AsinhOps::<B>::new(desc),
+            )
+            .output()
+    }
+
+    fn float_acosh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AcoshOps, B::float_acosh);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Acosh(desc.clone())),
+                AcoshOps::<B>::new(desc),
+            )
+            .output()
+    }
+
+    fn float_atanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        unary_float_ops!(AtanhOps, B::float_atanh);
+
+        let streams = OperationStreams::with_inputs([&tensor]);
+
+        let client = tensor.client.clone();
+        let desc = UnaryOpIr::create(tensor.into_ir(), || client.create_empty_handle());
+
+        client
+            .register(
+                streams,
+                OperationIr::Float(desc.out.dtype, FloatOperationIr::Atanh(desc.clone())),
+                AtanhOps::<B>::new(desc),
+            )
+            .output()
+    }
+
     fn float_recip(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
         unary_float_ops!(Recip, B::float_recip);
 

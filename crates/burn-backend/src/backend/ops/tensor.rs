@@ -1135,6 +1135,76 @@ pub trait FloatTensorOps<B: Backend> {
         B::float_div(sinh, cosh)
     }
 
+    /// Returns a new tensor with arc sine values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the arc sine of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with arc sine values.
+    /// Input values should be in the range [-1, 1].
+    fn float_asin(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
+    /// Returns a new tensor with arc cosine values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the arc cosine of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with arc cosine values.
+    /// Input values should be in the range [-1, 1].
+    fn float_acos(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
+    /// Returns a new tensor with arc tangent values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the arc tangent of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with arc tangent values.
+    fn float_atan(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
+    /// Returns a new tensor with inverse hyperbolic sine values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the inverse hyperbolic sine of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with inverse hyperbolic sine values.
+    fn float_asinh(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
+    /// Returns a new tensor with inverse hyperbolic cosine values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the inverse hyperbolic cosine of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with inverse hyperbolic cosine values.
+    /// Input values should be >= 1.
+    fn float_acosh(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
+    /// Returns a new tensor with inverse hyperbolic tangent values.
+    ///
+    /// # Arguments
+    ///
+    /// * `tensor` - The tensor to take the inverse hyperbolic tangent of.
+    ///
+    /// # Returns
+    ///
+    /// A tensor with the same shape as `tensor` with inverse hyperbolic tangent values.
+    /// Input values should be in the range (-1, 1).
+    fn float_atanh(tensor: FloatTensor<B>) -> FloatTensor<B>;
+
     /// Returns a new tensor with rounded values.
     ///
     /// This function should implement the [round half to even](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even)

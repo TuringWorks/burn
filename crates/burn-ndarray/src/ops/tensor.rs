@@ -493,6 +493,54 @@ where
         })
     }
 
+    fn float_asin(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).asin().elem())
+                .into_shared()
+        })
+    }
+
+    fn float_acos(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).acos().elem())
+                .into_shared()
+        })
+    }
+
+    fn float_atan(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).atan().elem())
+                .into_shared()
+        })
+    }
+
+    fn float_asinh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).asinh().elem())
+                .into_shared()
+        })
+    }
+
+    fn float_acosh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).acosh().elem())
+                .into_shared()
+        })
+    }
+
+    fn float_atanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
+        execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
+            array
+                .mapv_into(|a: FloatElem| (a.to_f64()).atanh().elem())
+                .into_shared()
+        })
+    }
+
     fn float_round(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
         execute_with_float_dtype!(tensor, FloatElem, |array: SharedArray<FloatElem>| {
             array

@@ -14,6 +14,36 @@ impl NodeCodegen for onnx_ir::elementwise::ElementwiseUnaryNode {
         let output = arg_to_ident(self.outputs.first().unwrap());
 
         match self.node_type {
+            onnx_ir::ir::NodeType::Asin => {
+                quote! {
+                    let #output = #input.asin();
+                }
+            }
+            onnx_ir::ir::NodeType::Acos => {
+                quote! {
+                    let #output = #input.acos();
+                }
+            }
+            onnx_ir::ir::NodeType::Atan => {
+                quote! {
+                    let #output = #input.atan();
+                }
+            }
+            onnx_ir::ir::NodeType::Asinh => {
+                quote! {
+                    let #output = #input.asinh();
+                }
+            }
+            onnx_ir::ir::NodeType::Acosh => {
+                quote! {
+                    let #output = #input.acosh();
+                }
+            }
+            onnx_ir::ir::NodeType::Atanh => {
+                quote! {
+                    let #output = #input.atanh();
+                }
+            }
             onnx_ir::ir::NodeType::Softplus => {
                 // ONNX Softplus: log(1 + exp(x)), equivalent to burn's softplus with beta=1.0
                 quote! {
@@ -212,6 +242,78 @@ mod tests {
                 let alpha = 1.0f64;
                 x.clone().mask_where(x.clone().lower_equal_elem(alpha), x.zeros_like())
             };
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_asin_forward() {
+        let node = create_unary_node("asin1", NodeType::Asin);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.asin();
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_acos_forward() {
+        let node = create_unary_node("acos1", NodeType::Acos);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.acos();
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_atan_forward() {
+        let node = create_unary_node("atan1", NodeType::Atan);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.atan();
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_asinh_forward() {
+        let node = create_unary_node("asinh1", NodeType::Asinh);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.asinh();
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_acosh_forward() {
+        let node = create_unary_node("acosh1", NodeType::Acosh);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.acosh();
+            output
+        }
+        ");
+    }
+
+    #[test]
+    fn test_atanh_forward() {
+        let node = create_unary_node("atanh1", NodeType::Atanh);
+        let code = codegen_forward_default(&node);
+        assert_snapshot!(code, @r"
+        pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
+            let output = input.atanh();
             output
         }
         ");

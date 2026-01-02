@@ -459,6 +459,8 @@ impl TraceOperationFuser {
             FloatOperationIr::Tanh(desc) => self.fuse_unary_ops(desc, |input, out| {
                 FuseOp::Tanh(UnaryFuseArgs { input, out })
             }),
+            // Note: Asin, Acos, Atan, Asinh, Acosh, Atanh fall through to _ => false
+            // because CubeCL's Line type doesn't have ArcXxx trait implementations yet.
             FloatOperationIr::Erf(desc) => {
                 self.fuse_unary_ops(desc, |input, out| FuseOp::Erf(UnaryFuseArgs { input, out }))
             }

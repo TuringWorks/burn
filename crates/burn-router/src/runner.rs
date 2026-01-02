@@ -985,6 +985,24 @@ impl<B: BackendIr> RunnerClient for Runner<B> {
                 FloatOperationIr::Tanh(desc) => {
                     unary_float_ops!(handles, desc, B::float_tanh)
                 }
+                FloatOperationIr::Asin(desc) => {
+                    unary_float_ops!(handles, desc, B::float_asin)
+                }
+                FloatOperationIr::Acos(desc) => {
+                    unary_float_ops!(handles, desc, B::float_acos)
+                }
+                FloatOperationIr::Atan(desc) => {
+                    unary_float_ops!(handles, desc, B::float_atan)
+                }
+                FloatOperationIr::Asinh(desc) => {
+                    unary_float_ops!(handles, desc, B::float_asinh)
+                }
+                FloatOperationIr::Acosh(desc) => {
+                    unary_float_ops!(handles, desc, B::float_acosh)
+                }
+                FloatOperationIr::Atanh(desc) => {
+                    unary_float_ops!(handles, desc, B::float_atanh)
+                }
                 FloatOperationIr::Round(desc) => {
                     unary_float_ops!(handles, desc, B::float_round)
                 }

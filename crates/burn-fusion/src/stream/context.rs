@@ -438,6 +438,30 @@ impl RelativeOps for FloatOperationIr {
                 input: desc.input.to_relative(converter),
                 out: desc.out.to_relative(converter),
             }),
+            FloatOperationIr::Asin(desc) => FloatOperationIr::Asin(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
+            FloatOperationIr::Acos(desc) => FloatOperationIr::Acos(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
+            FloatOperationIr::Atan(desc) => FloatOperationIr::Atan(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
+            FloatOperationIr::Asinh(desc) => FloatOperationIr::Asinh(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
+            FloatOperationIr::Acosh(desc) => FloatOperationIr::Acosh(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
+            FloatOperationIr::Atanh(desc) => FloatOperationIr::Atanh(UnaryOpIr {
+                input: desc.input.to_relative(converter),
+                out: desc.out.to_relative(converter),
+            }),
             FloatOperationIr::IntoInt(desc) => FloatOperationIr::IntoInt(CastOpIr {
                 input: desc.input.to_relative(converter),
                 out: desc.out.to_relative(converter),
