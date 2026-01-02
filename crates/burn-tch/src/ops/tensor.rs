@@ -3,7 +3,7 @@ use crate::{IntoKind, LibTorch, LibTorchDevice, TchShape, TchTensor, element::Tc
 use burn_backend::backend::ExecutionError;
 use burn_backend::tensor::{BoolTensor, FloatTensor, IntTensor};
 use burn_backend::{
-    DType, Distribution, ElementConversion, FloatDType, Shape, TensorData, TensorMetadata,
+    DType, Distribution, FloatDType, Shape, TensorData, TensorMetadata,
     backend::Backend,
     ops::{FloatTensorOps, GridSampleOptions, GridSamplePaddingMode, InterpolateMode},
 };
