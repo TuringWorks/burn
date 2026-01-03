@@ -13,7 +13,7 @@ functionality.
 | [Acos][2]                        | ✅             | ✅           |
 | [Acosh][3]                       | ✅             | ✅           |
 | [Add][4]                         | ✅             | ✅           |
-| [AffineGrid][195]                | ❌             | ❌           |
+| [AffineGrid][195]                | ✅             | ✅           |
 | [And][5]                         | ✅             | ✅           |
 | [ArgMax][6]                      | ✅             | ✅           |
 | [ArgMin][7]                      | ✅             | ✅           |

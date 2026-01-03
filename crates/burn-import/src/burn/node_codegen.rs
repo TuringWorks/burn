@@ -216,6 +216,7 @@ impl_node_codegen_dispatch! {
     DepthToSpace,
     SpaceToDepth,
     Resize,
+    AffineGrid,
     GridSample,
 
     // Test ops

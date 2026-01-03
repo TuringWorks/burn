@@ -494,6 +494,10 @@ impl ProcessorRegistry {
             Box::new(crate::node::resize::ResizeProcessor),
         );
         registry.register(
+            NodeType::AffineGrid,
+            Box::new(crate::node::affine_grid::AffineGridProcessor),
+        );
+        registry.register(
             NodeType::GridSample,
             Box::new(crate::node::grid_sample::GridSampleProcessor),
         );

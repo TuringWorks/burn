@@ -12,6 +12,7 @@ mod subgraph_helper;
 pub(crate) mod test_helpers;
 
 pub(crate) mod abs;
+pub(crate) mod affine_grid;
 pub(crate) mod add;
 pub(crate) mod argmax;
 pub(crate) mod argmin;

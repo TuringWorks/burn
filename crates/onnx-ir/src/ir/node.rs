@@ -319,8 +319,11 @@ define_node_enum! {
     Mod => modulo::ModNode,
     CumSum => cumsum::CumSumNode,
 
+    // GRID OPERATIONS
+    AffineGrid => affine_grid::AffineGridNode,
+    GridSample => grid_sample::GridSampleNode,
+
     // UNSUPPORTED / PLACEHOLDER OPERATIONS (not yet implemented in burn-import)
-    AffineGrid => unsupported::AffineGridNode,
     AveragePool => unsupported::AveragePoolNode,
     BlackmanWindow => unsupported::BlackmanWindowNode,
     CastLike => unsupported::CastLikeNode,
@@ -337,7 +340,6 @@ define_node_enum! {
     Det => unsupported::DetNode,
     DynamicQuantizeLinear => unsupported::DynamicQuantizeLinearNode,
     Einsum => unsupported::EinsumNode,
-    GridSample => grid_sample::GridSampleNode,
     Gru => gru::GruNode,
     HammingWindow => unsupported::HammingWindowNode,
     HannWindow => unsupported::HannWindowNode,
