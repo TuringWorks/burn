@@ -519,6 +519,36 @@ impl FuseBlockBuilder {
                 &mut local_tensor_ids_input,
                 &mut local_tensor_ids_output,
             ),
+            FuseOp::Asin(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
+            FuseOp::Acos(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
+            FuseOp::Atan(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
+            FuseOp::Asinh(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
+            FuseOp::Acosh(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
+            FuseOp::Atanh(op) => mark_unary(
+                op,
+                &mut local_tensor_ids_input,
+                &mut local_tensor_ids_output,
+            ),
             FuseOp::Recip(op) => mark_unary(
                 op,
                 &mut local_tensor_ids_input,

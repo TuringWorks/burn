@@ -290,8 +290,24 @@ fn fuse(
             FuseOp::Tanh(op) => {
                 tanh::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
             }
-            // Note: Asin, Acos, Atan, Asinh, Acosh, Atanh are not fusable because
-            // CubeCL's Line type doesn't have ArcXxx trait implementations yet.
+            FuseOp::Asin(op) => {
+                asin::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
+            FuseOp::Acos(op) => {
+                acos::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
+            FuseOp::Atan(op) => {
+                atan::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
+            FuseOp::Asinh(op) => {
+                asinh::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
+            FuseOp::Acosh(op) => {
+                acosh::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
+            FuseOp::Atanh(op) => {
+                atanh::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
+            }
             FuseOp::Equal(op) => {
                 equal::<NumericExpand<DYN_ELEM_ID>>(inputs, outputs, locals, pos, op, config)
             }
@@ -903,8 +919,12 @@ unary_func!(sqrt, Line::<C>::sqrt, Float);
 unary_func!(cos, Line::<C>::cos, Float);
 unary_func!(sin, Line::<C>::sin, Float);
 unary_func!(tanh, Line::<C>::tanh, Float);
-// Note: asin, acos, atan, asinh, acosh, atanh are not fusable because
-// CubeCL's Line type doesn't have ArcXxx trait implementations yet.
+unary_func!(asin, Line::<C>::asin, Float);
+unary_func!(acos, Line::<C>::acos, Float);
+unary_func!(atan, Line::<C>::atan, Float);
+unary_func!(asinh, Line::<C>::asinh, Float);
+unary_func!(acosh, Line::<C>::acosh, Float);
+unary_func!(atanh, Line::<C>::atanh, Float);
 unary_func!(erf, Line::<C>::erf, Float);
 unary_func!(recip, Line::<C>::recip, Float);
 unary_func!(abs, Line::<C>::abs, Numeric);

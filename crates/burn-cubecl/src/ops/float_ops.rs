@@ -467,83 +467,28 @@ where
         unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Tanh)
     }
 
-    // Inverse trig functions use mathematical formulas since CubeCL's Line type
-    // doesn't have ArcSin, ArcCos, ArcTan, ArcSinh, ArcCosh, ArcTanh trait implementations yet.
-    // TODO: Add native CubeCL kernels when the upstream cubecl library adds Arc* traits to Line.
-
     fn float_asin(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // asin(x) = atan(x / sqrt(1 - x²))
-        let x = tensor.clone();
-        let x_squared = Self::float_mul(tensor.clone(), tensor);
-        let one_minus_x_sq = Self::float_sub_scalar(x_squared, 1.0.elem());
-        let neg_one_minus_x_sq = Self::float_neg(one_minus_x_sq);
-        let sqrt_val = Self::float_sqrt(neg_one_minus_x_sq);
-        let ratio = Self::float_div(x, sqrt_val);
-        Self::float_atan(ratio)
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Asin)
     }
 
     fn float_acos(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // acos(x) = π/2 - asin(x)
-        let asin_val = Self::float_asin(tensor);
-        Self::float_sub_scalar(asin_val, (-core::f32::consts::FRAC_PI_2).elem())
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Acos)
     }
 
     fn float_atan(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // Use a polynomial approximation for atan
-        // For now, use the identity: atan(x) = asin(x / sqrt(1 + x²)) for small x
-        // This works for all x: atan(x) = x - x³/3 + x⁵/5 - ... but converges slowly
-        // Better: atan(x) = asin(x / sqrt(1 + x²)) but this creates a recursion with asin
-        //
-        // For CubeCL, we'll use the formula:
-        // atan(x) = sign(x) * arctan(|x|) where arctan uses a rational approximation
-        // For |x| <= 1: atan(x) ≈ x * (0.9998660 + x² * (-0.3302995 + x² * (0.1801410 + x² * (-0.0851330 + x² * 0.0208351))))
-        // For |x| > 1: atan(x) = π/2 - atan(1/x)
-        //
-        // Simplified approach using the identity: atan(x) = asin(x / sqrt(1 + x²))
-        // But we need to break the recursion. Let's use atan2-style computation.
-        //
-        // For now, use element-wise computation via the numeric fallback
-        let x = tensor.clone();
-        let x_sq = Self::float_mul(tensor.clone(), tensor);
-        let one_plus_x_sq = Self::float_add_scalar(x_sq, 1.0.elem());
-        let sqrt_denom = Self::float_sqrt(one_plus_x_sq);
-        let ratio = Self::float_div(x, sqrt_denom);
-        // asin(ratio) = atan(x) when ratio = x/sqrt(1+x²)
-        // We need to compute asin directly without recursion
-        // asin(y) for |y| <= 1: use polynomial or direct computation
-        // For now, just return the ratio scaled - this is approximate!
-        // TODO: Implement proper atan kernel in CubeCL
-        Self::float_mul_scalar(ratio, core::f32::consts::FRAC_PI_2.elem())
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Atan)
     }
 
     fn float_asinh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // asinh(x) = ln(x + sqrt(x² + 1))
-        let x = tensor.clone();
-        let x_squared = Self::float_mul(tensor.clone(), tensor);
-        let x_sq_plus_one = Self::float_add_scalar(x_squared, 1.0.elem());
-        let sqrt_val = Self::float_sqrt(x_sq_plus_one);
-        let sum = Self::float_add(x, sqrt_val);
-        Self::float_log(sum)
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Asinh)
     }
 
     fn float_acosh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // acosh(x) = ln(x + sqrt(x² - 1)) for x >= 1
-        let x = tensor.clone();
-        let x_squared = Self::float_mul(tensor.clone(), tensor);
-        let x_sq_minus_one = Self::float_sub_scalar(x_squared, 1.0.elem());
-        let sqrt_val = Self::float_sqrt(x_sq_minus_one);
-        let sum = Self::float_add(x, sqrt_val);
-        Self::float_log(sum)
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Acosh)
     }
 
     fn float_atanh(tensor: FloatTensor<Self>) -> FloatTensor<Self> {
-        // atanh(x) = 0.5 * ln((1 + x) / (1 - x)) for |x| < 1
-        let one_plus_x = Self::float_add_scalar(tensor.clone(), 1.0.elem());
-        let one_minus_x = Self::float_sub_scalar(tensor, 1.0.elem());
-        let neg_one_minus_x = Self::float_neg(one_minus_x);
-        let ratio = Self::float_div(one_plus_x, neg_one_minus_x);
-        let ln_ratio = Self::float_log(ratio);
-        Self::float_mul_scalar(ln_ratio, 0.5.elem())
+        unary_basic::launch::<R, _>(tensor, |_| BasicFloatUnaryKind::Atanh)
     }
 
     fn float_round(tensor: FloatTensor<Self>) -> FloatTensor<Self> {

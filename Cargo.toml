@@ -180,8 +180,11 @@ portable-atomic = { version = "1.11.1" }
 portable-atomic-util = { version = "0.2.4", features = ["alloc"] }
 
 ### For the main burn branch. ###
-cubecl = { git = "https://github.com/tracel-ai/cubecl", default-features = false, rev = "48ff83f19952d053b80ab5762baf387f451e5c63" }
-cubecl-common = { git = "https://github.com/tracel-ai/cubecl", default-features = false, rev = "48ff83f19952d053b80ab5762baf387f451e5c63" }
+# cubecl = { git = "https://github.com/tracel-ai/cubecl", default-features = false, rev = "48ff83f19952d053b80ab5762baf387f451e5c63" }
+# cubecl-common = { git = "https://github.com/tracel-ai/cubecl", default-features = false, rev = "48ff83f19952d053b80ab5762baf387f451e5c63" }
+### For TuringWorks fork with arc trig traits for Line type. ###
+cubecl = { git = "https://github.com/TuringWorks/cubecl", default-features = false, branch = "feature/line-arc-trig-traits" }
+cubecl-common = { git = "https://github.com/TuringWorks/cubecl", default-features = false, branch = "feature/line-arc-trig-traits" }
 cubek = { git = "https://github.com/tracel-ai/cubek", default-features = false, rev = "0d9a635229d3cabfa8297ddc967ff4e783be348c" }
 ### For local development. ###
 # cubecl = { path = "../../cubecl/crates/cubecl", default-features = false }
@@ -197,3 +200,14 @@ tracel-xtask = { version = "=2.2.1" }
 
 [profile.dev]
 debug = 1 # Speed up compilation time and not necessary.
+
+# Patch cubecl from tracel-ai to use TuringWorks fork with arc trig traits for Line type
+[patch."https://github.com/tracel-ai/cubecl"]
+cubecl = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-common = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-core = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-ir = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-macros = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-macros-internal = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-runtime = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
+cubecl-std = { git = "https://github.com/TuringWorks/cubecl", branch = "feature/line-arc-trig-traits" }
