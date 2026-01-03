@@ -1,6 +1,12 @@
 use super::*;
 
 mod abs;
+mod acos;
+mod acosh;
+mod asin;
+mod asinh;
+mod atan;
+mod atanh;
 mod add;
 mod aggregation;
 mod all;
